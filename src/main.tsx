@@ -1,5 +1,6 @@
 import { StrictMode, useState } from 'react'
 import { createRoot } from 'react-dom/client'
+import './theme/tokens.css'
 import { Board } from './screens/Board'
 import { CheckIn } from './screens/CheckIn'
 import { Mission } from './screens/Mission'
