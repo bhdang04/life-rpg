@@ -6,11 +6,12 @@ import { streakMultiplier } from '../core/xp'
 interface Props {
   state: GameState
   onChange: (fn: (s: GameState) => GameState) => void
+  onCheckIn: () => void
 }
 
 const ACTION = { tap: 'Done', timed: 'Start', checkin: 'Check in' } as const
 
-function Row({ m, state, onChange }: { m: MissionDef } & Props) {
+function Row({ m, state, onChange, onCheckIn }: { m: MissionDef } & Props) {
   const entry = state.log[m.id]
   const done = isDone(state, m.id)
   const detail =
@@ -22,10 +23,10 @@ function Row({ m, state, onChange }: { m: MissionDef } & Props) {
       {done ? (
         <span> ✓ +{entry.xp} XP</span>
       ) : (
-        // check-in screen is step 5, so those stay disabled until then
         <button
-          disabled={m.kind === 'checkin'}
-          onClick={() => onChange((s) => (m.kind === 'tap' ? completeTap(s, m.id, Date.now()) : startMission(s, m.id, Date.now())))}
+          onClick={() =>
+            m.kind === 'checkin' ? onCheckIn() : onChange((s) => (m.kind === 'tap' ? completeTap(s, m.id, Date.now()) : startMission(s, m.id, Date.now())))
+          }
         >
           {ACTION[m.kind]}
         </button>
@@ -34,12 +35,12 @@ function Row({ m, state, onChange }: { m: MissionDef } & Props) {
   )
 }
 
-export function Board({ state, onChange }: Props) {
+export function Board({ state, onChange, onCheckIn }: Props) {
   const open = MISSIONS.filter((m) => !isDone(state, m.id))
   const section = (title: string, list: MissionDef[]) => (
     <section>
       <h2>{title}</h2>
-      {list.length === 0 ? <p>Nothing here.</p> : <ul>{list.map((m) => <Row key={m.id} m={m} state={state} onChange={onChange} />)}</ul>}
+      {list.length === 0 ? <p>Nothing here.</p> : <ul>{list.map((m) => <Row key={m.id} m={m} state={state} onChange={onChange} onCheckIn={onCheckIn} />)}</ul>}
     </section>
   )
   const xp = totalXp(state.statXp)
