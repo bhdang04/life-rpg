@@ -42,12 +42,12 @@ export function Mission({ active, onChange }: Props) {
   return (
     <main>
       <h1>{m.name}</h1>
-      <p aria-live="off">{clock(active.endsAt - now)}</p>
+      <p className="clock" aria-live="off">{clock(active.endsAt - now)}</p>
       <p>
         {active.count} / {m.tracker!.target} {m.tracker!.label}
       </p>
       <button onClick={() => onChange((s) => track(s, Date.now()))}>+1 {m.tracker!.label}</button>
-      <p>Hit the target before time runs out, or you get 0 XP. Leaving the app breaks the mission (-5 XP).</p>
+      <p>[System] Complete the objective before time expires, or the reward is forfeited. Leaving the app counts as desertion (-5 XP).</p>
       <p>Lock yourself in: Settings → Accessibility → Guided Access, then triple-click the side button.</p>
       <button onClick={() => onChange((s) => breakActive(s, Date.now()))}>Give up (-5 XP)</button>
     </main>
