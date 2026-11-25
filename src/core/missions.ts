@@ -78,7 +78,7 @@ export function breakActive(s: GameState, now: number): GameState {
   if (!s.active) return s
   const m = missionById(s.active.id)
   const { state, lost } = penalize(s, m.stat, BREAK_PENALTY)
-  return { ...state, active: null, log: { ...state.log, [m.id]: { status: 'broken', xp: -lost, at: now } } }
+  return { ...state, active: null, log: { ...state.log, [m.id]: { status: 'broken', xp: 0 - lost, at: now } } }
 }
 
 export function completeTap(s: GameState, id: string, now: number): GameState {
