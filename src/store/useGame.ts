@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react'
 import type { GameState } from '../core/missions'
+import { dayKey, rollover } from '../core/streak'
 import { load, save } from './storage'
 
-// shortcut: day rollover only runs when the app is opened, a tab left open past midnight keeps yesterday until reload, fix with a visibilitychange rollover in step 4
 export function useGame() {
   const [state, setState] = useState<GameState>(() => load())
   useEffect(() => save(state), [state])
+  // A tab left open past midnight rolls the day when it comes back to the front.
+  useEffect(() => {
+    const onShow = () => !document.hidden && setState((s) => rollover(s, dayKey(new Date())))
+    document.addEventListener('visibilitychange', onShow)
+    return () => document.removeEventListener('visibilitychange', onShow)
+  }, [])
   return [state, setState] as const
 }

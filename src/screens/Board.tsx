@@ -1,5 +1,5 @@
 import { MISSIONS, type MissionDef } from '../config/missions'
-import { completeTap, isDone, minutesFor, type GameState } from '../core/missions'
+import { completeTap, isDone, minutesFor, startMission, type GameState } from '../core/missions'
 import { levelFor, rankFor, totalXp } from '../core/ranks'
 import { streakMultiplier } from '../core/xp'
 
@@ -22,8 +22,11 @@ function Row({ m, state, onChange }: { m: MissionDef } & Props) {
       {done ? (
         <span> ✓ +{entry.xp} XP</span>
       ) : (
-        // timed (step 4) and check-in (step 5) screens don't exist yet, so only tap missions act
-        <button disabled={m.kind !== 'tap'} onClick={() => onChange((s) => completeTap(s, m.id, Date.now()))}>
+        // check-in screen is step 5, so those stay disabled until then
+        <button
+          disabled={m.kind === 'checkin'}
+          onClick={() => onChange((s) => (m.kind === 'tap' ? completeTap(s, m.id, Date.now()) : startMission(s, m.id, Date.now())))}
+        >
           {ACTION[m.kind]}
         </button>
       )}
