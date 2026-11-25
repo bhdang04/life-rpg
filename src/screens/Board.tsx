@@ -18,8 +18,10 @@ function Row({ m, state, onChange, onCheckIn }: { m: MissionDef } & Props) {
     m.kind === 'timed' ? `${minutesFor(state, m.id)} min · ${m.tracker!.target} ${m.tracker!.label}` : m.kind === 'checkin' ? 'log once a day' : 'tap when done'
   return (
     <li>
-      <strong>{m.name}</strong> +{m.xp} {m.stat} · {detail}
-      {entry && !done && <em> · {entry.status} ({entry.xp} XP), retry allowed</em>}
+      <span className="info">
+        <strong>{m.name}</strong> +{m.xp} {m.stat} · {detail}
+        {entry && !done && <em> · {entry.status} ({entry.xp} XP), retry allowed</em>}
+      </span>
       {done ? (
         <span> ✓ +{entry.xp} XP</span>
       ) : (
