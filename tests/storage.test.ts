@@ -14,7 +14,7 @@ describe('storage', () => {
   })
   it('save then load round-trips', () => {
     const st = fake()
-    const s = completeTap(newState('2026-11-25'), 'workout', NOW)
+    const s = completeTap(newState('2026-11-25'), 'gym', NOW)
     save(s, st)
     expect(load(st, NOW)).toEqual(s)
     expect(JSON.parse(exportJSON(s))).toEqual(s)
@@ -28,11 +28,11 @@ describe('storage', () => {
   })
   it('new day rolls over', () => {
     const st = fake()
-    save(completeTap(newState('2026-11-24'), 'workout', NOW), st)
+    save(completeTap(newState('2026-11-24'), 'gym', NOW), st)
     const s = load(st, NOW)
     expect(s.day).toBe('2026-11-25')
     expect(s.log).toEqual({})
-    expect(s.history['2026-11-24'].workout.status).toBe('done')
+    expect(s.history['2026-11-24'].gym.status).toBe('done')
   })
   it('corrupt save is kept aside and replaced', () => {
     const st = fake()
