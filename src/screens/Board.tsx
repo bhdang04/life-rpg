@@ -40,7 +40,7 @@ export function Board({ state, onChange, onCheckIn }: Props) {
   const section = (title: string, list: MissionDef[]) => (
     <section>
       <h2>{title}</h2>
-      {list.length === 0 ? <p>Nothing here.</p> : <ul>{list.map((m) => <Row key={m.id} m={m} state={state} onChange={onChange} onCheckIn={onCheckIn} />)}</ul>}
+      {list.length === 0 ? <p>[System] No quests pending.</p> : <ul>{list.map((m) => <Row key={m.id} m={m} state={state} onChange={onChange} onCheckIn={onCheckIn} />)}</ul>}
     </section>
   )
   const xp = totalXp(state.statXp)
