@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { newState, startMission, completeTap } from '../src/core/missions'
+import { newState, startMission, completeTap, logWorkout } from '../src/core/missions'
 import { KEY, exportJSON, load, save } from '../src/store/storage'
 
 const fake = () => {
@@ -14,16 +14,21 @@ describe('storage', () => {
   })
   it('save then load round-trips', () => {
     const st = fake()
-    const s = completeTap(newState('2026-11-25'), 'gym', NOW)
+    const s = completeTap(logWorkout(newState('2026-11-25'), '2026-11-25', { split: 'Push', entries: [] }), 'gym', NOW)
     save(s, st)
     expect(load(st, NOW)).toEqual(s)
     expect(JSON.parse(exportJSON(s))).toEqual(s)
   })
-  it('old save without workouts loads with an empty log', () => {
+  it('old save without workouts loads with the Daily HQ history', () => {
     const st = fake()
     const { workouts: _w, ...old } = newState('2026-11-25')
     st.setItem(KEY, JSON.stringify(old))
-    expect(load(st, NOW).workouts).toEqual({})
+    expect(Object.keys(load(st, NOW).workouts)).toHaveLength(12)
+  })
+  it('a save that already has workouts is not overwritten by the seed', () => {
+    const st = fake()
+    save(logWorkout(newState('2026-11-25'), '2026-11-25', { split: 'Push', entries: [] }), st)
+    expect(Object.keys(load(st, NOW).workouts)).toEqual(['2026-11-25'])
   })
   it('reopen with active mission breaks it', () => {
     const st = fake()
