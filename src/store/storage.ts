@@ -14,7 +14,7 @@ export function load(store: Pick<Storage, 'getItem' | 'setItem'> = localStorage,
   if (!raw) return newState(today)
   try {
     const s = JSON.parse(raw)
-    if (looksValid(s)) return rollover(breakActive(s, now), today)
+    if (looksValid(s)) return rollover(breakActive({ ...s, workouts: s.workouts ?? {} }, now), today)
   } catch {}
   store.setItem(KEY + ':corrupt', raw) // keep the bad save so it can be recovered by hand
   return newState(today)
