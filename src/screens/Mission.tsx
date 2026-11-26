@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { missionById } from '../config/missions'
+import { BREAK_PENALTY, missionById } from '../config/missions'
 import { breakActive, expireIfDue, track, type ActiveMission, type GameState } from '../core/missions'
+import { Ring } from '../ui/Ring'
 
 interface Props {
   active: ActiveMission
@@ -39,17 +40,19 @@ export function Mission({ active, onChange }: Props) {
     return () => void lock?.release().catch(() => {})
   }, [])
 
+  const left = active.endsAt - now
   return (
-    <main>
-      <h1>{m.name}</h1>
-      <p className="clock" aria-live="off">{clock(active.endsAt - now)}</p>
-      <p>
-        {active.count} / {m.tracker!.target} {m.tracker!.label}
-      </p>
-      <button onClick={() => onChange((s) => track(s, Date.now()))}>+1 {m.tracker!.label}</button>
-      <p>[System] Complete the objective before time expires, or the reward is forfeited. Leaving the app counts as desertion (-5 XP).</p>
-      <p>Lock yourself in: Settings → Accessibility → Guided Access, then triple-click the side button.</p>
-      <button onClick={() => onChange((s) => breakActive(s, Date.now()))}>Give up (-5 XP)</button>
+    <main className="lock">
+      <small>FOCUS</small>
+      <h1 className="display">{m.name}</h1>
+      <div className="lock-ring">
+        <Ring level="" pct={Math.min(1, Math.max(0, left / (active.endsAt - active.startedAt)))} color="#c4b5fd" label={`${clock(left)} left`} size={300} />
+        <p className="clock display" aria-live="off">{clock(left)}</p>
+      </div>
+      <p>{active.count} / {m.tracker!.target} {m.tracker!.label} · +{m.xp} XP at stake</p>
+      <button className="go" onClick={() => onChange((s) => track(s, Date.now()))}>+1 {m.tracker!.label}</button>
+      <p className="hint">Leave the app and you lose {BREAK_PENALTY} XP. Lock the phone in: Settings → Accessibility → Guided Access, triple-click the side button.</p>
+      <button className="quiet" onClick={() => onChange((s) => breakActive(s, Date.now()))}>Give up (-{BREAK_PENALTY} XP)</button>
     </main>
   )
 }
