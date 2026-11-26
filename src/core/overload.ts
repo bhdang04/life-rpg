@@ -28,13 +28,15 @@ export function lastSession(workouts: Record<string, Workout>, ex: string): { w:
   return null
 }
 
+// What you did last and what to aim for; both null for an exercise with no history.
+export function rowFor(workouts: Record<string, Workout>, ex: string) {
+  const last = lastSession(workouts, ex)
+  return { ex, last, target: last ? nextTarget(last, stepFor(ex)) : null }
+}
+
 // Exercises from your latest session of this split, each with what you did and what to aim for.
 export function plan(workouts: Record<string, Workout>, split: string) {
   const date = Object.keys(workouts).sort().reverse().find((d) => workouts[d].split === split)
   if (!date) return []
-  const exs = [...new Set(workouts[date].entries.map((e) => e.ex))]
-  return exs.map((ex) => {
-    const last = lastSession(workouts, ex)!
-    return { ex, last, target: nextTarget(last, stepFor(ex)) }
-  })
+  return [...new Set(workouts[date].entries.map((e) => e.ex))].map((ex) => rowFor(workouts, ex))
 }
