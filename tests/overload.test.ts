@@ -16,7 +16,7 @@ describe('nextTarget', () => {
   })
 })
 
-import { lastSession, plan, stepFor } from '../src/core/overload'
+import { lastSession, plan, rowFor, stepFor } from '../src/core/overload'
 
 describe('stepFor', () => {
   it('picks the step by equipment', () => {
@@ -64,5 +64,11 @@ describe('plan', () => {
   })
   it('is empty for a split never done', () => {
     expect(plan(ws, 'Legs')).toEqual([])
+  })
+})
+
+describe('rowFor', () => {
+  it('has no last or target for an exercise with no history', () => {
+    expect(rowFor({}, 'Cable Crunch')).toEqual({ ex: 'Cable Crunch', last: null, target: null })
   })
 })
