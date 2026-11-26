@@ -10,6 +10,7 @@ interface Props {
   state: GameState
   onChange: (fn: (s: GameState) => GameState) => void
   onCheckIn: () => void
+  onGym: () => void
 }
 
 const ACTION = { tap: 'Done', timed: 'Start', checkin: 'Check in' } as const
@@ -52,9 +53,9 @@ function Row({ m, state, act, next }: { m: MissionDef; state: GameState; act: (m
   )
 }
 
-export function Board({ state, onChange, onCheckIn }: Props) {
+export function Board({ state, onChange, onCheckIn, onGym }: Props) {
   const act = (m: MissionDef) =>
-    m.kind === 'checkin' ? onCheckIn() : onChange((s) => (m.kind === 'tap' ? completeTap(s, m.id, Date.now()) : startMission(s, m.id, Date.now())))
+    m.kind === 'checkin' ? onCheckIn() : m.id === 'gym' ? onGym() : onChange((s) => (m.kind === 'tap' ? completeTap(s, m.id, Date.now()) : startMission(s, m.id, Date.now())))
 
   const xp = totalXp(state.statXp)
   const rank = rankFor(xp)
