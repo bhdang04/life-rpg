@@ -16,7 +16,7 @@ describe('nextTarget', () => {
   })
 })
 
-import { lastSession, stepFor } from '../src/core/overload'
+import { lastSession, plan, stepFor } from '../src/core/overload'
 
 describe('stepFor', () => {
   it('picks the step by equipment', () => {
@@ -43,10 +43,26 @@ describe('lastSession', () => {
     },
   }
   it('uses the newest session, top weight, fewest reps at it', () => {
-    expect(lastSession(ws, 'Bicep Curl')).toEqual({ w: 65, r: 5, date: '2026-11-05' })
+    expect(lastSession(ws, 'Bicep Curl')).toEqual({ w: 65, r: 5, reps: [7, 5], date: '2026-11-05' })
   })
   it('falls back to an older session and returns null when never done', () => {
     expect(lastSession(ws, 'Lat Rows')?.date).toBe('2026-11-05')
     expect(lastSession(ws, 'Squat')).toBeNull()
+  })
+})
+
+describe('plan', () => {
+  const ws = {
+    '2026-11-03': { split: 'Pull', entries: [{ ex: 'Lat Rows', w: 80, r: 8, s: 1 }, { ex: 'Lat Rows', w: 80, r: 8, s: 1 }] },
+    '2026-11-04': { split: 'Push', entries: [{ ex: 'Pec Fly', w: 190, r: 6, s: 1 }] },
+  }
+  it('lists the split\'s last exercises with a target', () => {
+    expect(plan(ws, 'Pull')).toEqual([
+      { ex: 'Lat Rows', last: { w: 80, r: 8, reps: [8, 8], date: '2026-11-03' }, target: { w: 85, r: 6 } },
+    ])
+    expect(plan(ws, 'Push')[0].target).toEqual({ w: 190, r: 7 })
+  })
+  it('is empty for a split never done', () => {
+    expect(plan(ws, 'Legs')).toEqual([])
   })
 })
