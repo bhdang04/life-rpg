@@ -42,7 +42,7 @@ function App() {
     <>
       {tab === 'Board' && <Board state={state} onChange={setState} onCheckIn={() => setTab('Check-in')} />}
       {tab === 'Check-in' && <CheckIn state={state} onChange={setState} />}
-      {tab === 'Stats' && <Stats state={state} />}
+      {tab === 'Stats' && <Stats state={state} onChange={setState} onCheckIn={() => setTab('Check-in')} />}
       {tab === 'Settings' && <Settings state={state} onChange={setState} />}
       {ups[0] && !state.active && <LevelUp info={ups[0]} total={totalXp(state.statXp)} onClose={() => setUps((q) => q.slice(1))} />}
       <nav>
