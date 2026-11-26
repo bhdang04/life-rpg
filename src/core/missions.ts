@@ -107,3 +107,7 @@ export const logWorkout = (s: GameState, date: string, w: Workout): GameState =>
   ...s,
   workouts: { ...s.workouts, [date]: w },
 })
+
+// Save the session and tick the Gym mission (+XP) together.
+export const finishWorkout = (s: GameState, date: string, w: Workout, now: number): GameState =>
+  completeTap(logWorkout(s, date, w), 'gym', now)
