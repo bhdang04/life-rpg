@@ -1,4 +1,4 @@
-import { StrictMode, useState } from 'react'
+import { StrictMode, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import './theme/tokens.css'
 import { Board } from './screens/Board'
@@ -6,7 +6,10 @@ import { CheckIn } from './screens/CheckIn'
 import { Mission } from './screens/Mission'
 import { Settings } from './screens/Settings'
 import { Stats } from './screens/Stats'
+import { STATS } from './config/missions'
+import { levelFor, totalXp } from './core/ranks'
 import { useGame } from './store/useGame'
+import { LevelUp, type LevelUpInfo } from './ui/LevelUp'
 
 const TABS = ['Board', 'Check-in', 'Stats', 'Settings'] as const
 
@@ -22,6 +25,18 @@ const ICONS: Record<(typeof TABS)[number], string> = {
 function App() {
   const [state, setState] = useGame()
   const [tab, setTab] = useState<(typeof TABS)[number]>('Board')
+  const [ups, setUps] = useState<LevelUpInfo[]>([])
+  const seen = useRef(Object.fromEntries(STATS.map((st) => [st.id, levelFor(state.statXp[st.id])])))
+  // Compare each stat's level with the last one seen; a jump queues a level-up card (none on first load).
+  useEffect(() => {
+    const found = STATS.flatMap((st) => {
+      const to = levelFor(state.statXp[st.id])
+      const from = seen.current[st.id]
+      seen.current[st.id] = to
+      return to > from ? [{ stat: st.id, from, to }] : []
+    })
+    if (found.length) setUps((q) => [...q, ...found])
+  }, [state.statXp])
   if (state.active) return <Mission active={state.active} onChange={setState} />
   return (
     <>
@@ -29,6 +44,7 @@ function App() {
       {tab === 'Check-in' && <CheckIn state={state} onChange={setState} />}
       {tab === 'Stats' && <Stats state={state} />}
       {tab === 'Settings' && <Settings state={state} onChange={setState} />}
+      {ups[0] && !state.active && <LevelUp info={ups[0]} total={totalXp(state.statXp)} onClose={() => setUps((q) => q.slice(1))} />}
       <nav>
         {TABS.map((t) => (
           <button key={t} aria-current={t === tab} onClick={() => setTab(t)}>
