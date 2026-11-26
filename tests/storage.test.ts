@@ -19,6 +19,12 @@ describe('storage', () => {
     expect(load(st, NOW)).toEqual(s)
     expect(JSON.parse(exportJSON(s))).toEqual(s)
   })
+  it('old save without workouts loads with an empty log', () => {
+    const st = fake()
+    const { workouts: _w, ...old } = newState('2026-11-25')
+    st.setItem(KEY, JSON.stringify(old))
+    expect(load(st, NOW).workouts).toEqual({})
+  })
   it('reopen with active mission breaks it', () => {
     const st = fake()
     save(startMission(newState('2026-11-25'), 'leetcode', NOW), st)
