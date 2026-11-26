@@ -95,4 +95,23 @@ nav button[aria-current='true'] { color: var(--text); background: var(--glass-st
 
 .clock { font-size: 4rem; font-variant-numeric: tabular-nums; text-align: center; color: var(--text); margin: 16px 0; text-shadow: 0 0 24px var(--accent); }
 
-@media (prefers-reduced-motion: reduce) { button { transition: none; } }
+/* Heading font. shortcut: system serif until the self-hosted Cinzel file is added to public/. */
+.display { font-family: 'Cinzel', Georgia, 'Times New Roman', serif; letter-spacing: 0.06em; }
+
+/* "System window" card: thin border plus two corner brackets. */
+.sys { position: relative; border-radius: 6px; }
+.sys::before, .sys::after {
+  content: ''; position: absolute; width: 12px; height: 12px;
+  border: 2px solid var(--bracket, var(--text)); pointer-events: none;
+}
+.sys::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
+.sys::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
+
+/* Slow glow on the Next Up card. */
+.hero { animation: glow 3.2s ease-in-out infinite; }
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 14px rgba(167, 139, 250, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(167, 139, 250, 0.65); }
+}
+
+@media (prefers-reduced-motion: reduce) { button { transition: none; } .hero { animation: none; } }
