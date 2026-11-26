@@ -161,7 +161,8 @@ details.fold[open] summary { color: var(--text); }
 @media (prefers-reduced-motion: reduce) { button, .tile svg { transition: none; } .hero, .pulse { animation: none; } }
 
 /* Gym workout screen */
-.splits { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: var(--gap); }
+.splits { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: var(--gap); }
+.splits button { padding: 0 2px; font-size: 0.85rem; }
 .splits button[aria-pressed='true'] { background: var(--glass-strong); border-color: var(--accent-2); color: var(--accent-2); }
 .lift { flex-direction: column; align-items: stretch; gap: 4px; }
 .lift .last { color: var(--text-dim); }
@@ -170,3 +171,5 @@ details.fold[open] summary { color: var(--text); }
 .sets input { width: 3.8em; padding: 0 8px; }
 .finish { position: sticky; bottom: calc(12px + env(safe-area-inset-bottom)); width: 100%; font-weight: 700; background: var(--bg-1); border-color: rgba(196, 181, 253, 0.7); }
 .finish:disabled { opacity: 1; color: var(--text-dim); border-color: var(--border); }
+.add { display: flex; gap: 8px; margin-bottom: var(--gap); }
+.add input { flex: 1; width: auto; min-width: 0; }
