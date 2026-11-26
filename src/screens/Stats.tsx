@@ -1,10 +1,11 @@
-import type { CSSProperties } from 'react'
-import { RANK_COLORS, STATS } from '../config/missions'
-import type { GameState } from '../core/missions'
+import { useState, type CSSProperties } from 'react'
+import { RANK_COLORS, STATS, type MissionDef, type Stat } from '../config/missions'
+import { completeTap, startMission, type GameState } from '../core/missions'
 import { levelProgress, rankFor, totalXp } from '../core/ranks'
 import { RankEmblem } from '../ui/RankEmblem'
 import { RankPath } from '../ui/RankPath'
 import { Ring } from '../ui/Ring'
+import { StatDetail } from '../ui/StatDetail'
 
 const C = 100 // radar center
 const R = 80 // radar outer radius
@@ -30,11 +31,22 @@ function Radar({ xp }: { xp: number[] }) {
   )
 }
 
-export function Stats({ state }: { state: GameState }) {
+interface Props {
+  state: GameState
+  onChange: (fn: (s: GameState) => GameState) => void
+  onCheckIn: () => void
+}
+
+export function Stats({ state, onChange, onCheckIn }: Props) {
+  const [open, setOpen] = useState<Stat | null>(null)
   const xp = STATS.map((s) => state.statXp[s.id])
   const total = totalXp(state.statXp)
   const rank = rankFor(total)
   const lowest = STATS.reduce((a, b) => (state.statXp[b.id] < state.statXp[a.id] ? b : a))
+  // Same start rules as the Board.
+  const start = (m: MissionDef) =>
+    m.kind === 'checkin' ? onCheckIn() : onChange((g) => (m.kind === 'tap' ? completeTap(g, m.id, Date.now()) : startMission(g, m.id, Date.now())))
+  if (open) return <StatDetail stat={open} state={state} onBack={() => setOpen(null)} onStart={start} />
   return (
     <main>
       <header className="hdr sys" style={{ '--bracket': RANK_COLORS[rank] } as CSSProperties}>
@@ -51,10 +63,10 @@ export function Stats({ state }: { state: GameState }) {
           {STATS.map((st) => {
             const { level, into, need } = levelProgress(state.statXp[st.id])
             return (
-              <div key={st.id}>
+              <button key={st.id} className="tile" onClick={() => setOpen(st.id)} aria-label={`${st.name} details`}>
                 <Ring level={level} pct={into / need} color={st.color} label={`${st.name} level ${level}, ${into} of ${need} XP`} size={84} />
                 <small>{st.name}</small>
-              </div>
+              </button>
             )
           })}
         </div>
