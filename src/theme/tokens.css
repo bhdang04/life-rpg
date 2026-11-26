@@ -153,7 +153,7 @@ details.fold[open] summary { color: var(--text); }
 .lock small { letter-spacing: 0.3em; color: var(--accent); }
 .lock h1 { margin: 0; letter-spacing: 0.08em; }
 .lock-ring { position: relative; display: grid; place-items: center; }
-.lock-ring .clock { position: absolute; margin: 0; font-size: 3.6rem; }
+.lock-ring .clock { position: absolute; margin: 0; font-size: 2.6rem; }
 .lock .go { width: 100%; max-width: 420px; min-height: 56px; background: var(--accent); color: #1b0b3f; font-weight: 600; border: 0; }
 .lock .hint { font-size: 0.8rem; color: var(--text-dim); max-width: 320px; margin: 0; }
 .lock .quiet { background: transparent; border-color: transparent; color: var(--text-dim); }
