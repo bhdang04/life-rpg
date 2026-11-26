@@ -18,14 +18,18 @@ const point = (i: number, r: number) => {
 function Radar({ xp }: { xp: number[] }) {
   const top = Math.max(100, ...xp)
   return (
-    <svg viewBox="-20 0 240 200" width="100%" style={{ maxWidth: 260, display: 'block', margin: '0 auto' }} role="img" aria-label={`Stat shape: ${STATS.map((s, i) => `${s.name} ${xp[i]} XP`).join(', ')}`}>
+    <svg viewBox="-20 0 240 200" width="100%" style={{ maxWidth: 300, display: 'block', margin: '0 auto' }} role="img" aria-label={`Stat shape: ${STATS.map((s, i) => `${s.name} ${xp[i]} XP`).join(', ')}`}>
       {[0.33, 0.66, 1].map((k) => (
         <polygon key={k} points={STATS.map((_, i) => point(i, R * k)).join(' ')} fill="none" stroke="var(--border)" />
       ))}
-      <polygon points={xp.map((v, i) => point(i, R * (v / top))).join(' ')} fill="var(--accent)" fillOpacity="0.3" stroke="var(--accent)" strokeWidth="2" strokeLinejoin="round" />
+      <polygon points={xp.map((v, i) => point(i, R * (v / top))).join(' ')} fill="rgba(167,139,250,0.35)" stroke="#c4b5fd" strokeWidth="2" strokeLinejoin="round" style={{ filter: 'drop-shadow(0 0 8px #a78bfa)' }} />
+      {STATS.map((s, i) => {
+        const [x, y] = point(i, R * (xp[i] / top)).split(',')
+        return <circle key={s.id} cx={x} cy={y} r="4.5" fill={s.color} />
+      })}
       {STATS.map((s, i) => {
         const [x, y] = point(i, R + 14).split(',')
-        return <text key={s.id} x={x} y={Number(y) + 4} textAnchor="middle" fontSize="11" fill={s.color}>{s.name}</text>
+        return <text key={s.id} x={x} y={Number(y) + 4} textAnchor="middle" className="display" fontSize="11" fontWeight="700" fill="#ece8ff">{s.name.slice(0, 3).toUpperCase()}</text>
       })}
     </svg>
   )
@@ -64,8 +68,9 @@ export function Stats({ state, onChange, onCheckIn }: Props) {
             const { level, into, need } = levelProgress(state.statXp[st.id])
             return (
               <button key={st.id} className="tile" onClick={() => setOpen(st.id)} aria-label={`${st.name} details`}>
-                <Ring level={level} pct={into / need} color={st.color} label={`${st.name} level ${level}, ${into} of ${need} XP`} size={84} />
-                <small>{st.name}</small>
+                <Ring level="" pct={into / need} color={st.color} label={`${st.name} level ${level}, ${into} of ${need} XP`} size={96} />
+                <strong>{st.name}</strong>
+                <small>{Math.round((into / need) * 100)}% to Lv {level + 1}</small>
               </button>
             )
           })}
