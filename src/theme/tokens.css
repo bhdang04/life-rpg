@@ -114,4 +114,24 @@ nav button[aria-current='true'] { color: var(--text); background: var(--glass-st
   50% { box-shadow: 0 0 30px rgba(167, 139, 250, 0.65); }
 }
 
+/* Board */
+.hdr { display: flex; align-items: center; gap: 12px; }
+.hdr .grow { flex: 1; min-width: 0; }
+.xpbar { height: 6px; margin-top: 6px; border-radius: 3px; overflow: hidden; background: rgba(167, 139, 250, 0.2); }
+.xpbar > i { display: block; height: 100%; background: linear-gradient(90deg, #7c3aed, #ddd0ff); box-shadow: 0 0 10px var(--accent); }
+.pills { display: flex; flex-direction: column; gap: 4px; }
+.pill { padding: 2px 8px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
+.daily-head { display: flex; align-items: center; gap: 14px; padding-top: 12px; }
+.daily-head p { margin: 0; color: var(--text); }
+.row-icon { flex: none; }
+.chips { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 8px; margin-bottom: var(--gap); }
+details.fold { margin-bottom: var(--gap); }
+details.fold summary { min-height: var(--tap); display: flex; align-items: center; justify-content: space-between; padding: 0 14px; cursor: pointer; border: 1px solid var(--border); border-radius: 12px; color: var(--text-dim); }
+details.fold[open] summary { color: var(--text); }
+.next { position: sticky; bottom: calc(72px + env(safe-area-inset-bottom)); display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 14px 14px 16px; background: rgba(26, 15, 51, 0.92); border: 1px solid rgba(196, 181, 253, 0.7); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.next small { display: block; font-size: 0.7rem; letter-spacing: 0.16em; color: var(--accent); }
+.next strong { display: block; font-size: 1.3rem; }
+.next span { color: var(--text-dim); font-size: 0.85rem; }
+.next .go { min-width: 112px; min-height: 56px; background: var(--accent); color: #1b0b3f; font-weight: 600; border: 0; }
+
 @media (prefers-reduced-motion: reduce) { button { transition: none; } .hero { animation: none; } }
