@@ -95,7 +95,8 @@ nav button[aria-current='true'] { color: var(--text); background: var(--glass-st
 
 .clock { font-size: 4rem; font-variant-numeric: tabular-nums; text-align: center; color: var(--text); margin: 16px 0; text-shadow: 0 0 24px var(--accent); }
 
-/* Heading font. shortcut: system serif until the self-hosted Cinzel file is added to public/. */
+/* Heading font: Cinzel (SIL OFL), latin subset only, self-hosted. */
+@font-face { font-family: 'Cinzel'; font-weight: 700; font-display: swap; src: url('/fonts/cinzel-700.woff2') format('woff2'); }
 .display { font-family: 'Cinzel', Georgia, 'Times New Roman', serif; letter-spacing: 0.06em; }
 
 /* "System window" card: thin border plus two corner brackets. */
