@@ -1,24 +1,73 @@
-import { STATS } from '../config/missions'
+import type { CSSProperties } from 'react'
+import { RANK_COLORS, STATS } from '../config/missions'
 import type { GameState } from '../core/missions'
-import { levelProgress, nextRank, rankFor, totalXp } from '../core/ranks'
+import { levelProgress, rankFor, totalXp } from '../core/ranks'
+import { RankEmblem } from '../ui/RankEmblem'
+import { RankPath } from '../ui/RankPath'
+import { Ring } from '../ui/Ring'
+
+const C = 100 // radar center
+const R = 80 // radar outer radius
+const point = (i: number, r: number) => {
+  const a = (-90 + (360 / STATS.length) * i) * (Math.PI / 180)
+  return `${(C + r * Math.cos(a)).toFixed(1)},${(C + r * Math.sin(a)).toFixed(1)}`
+}
+
+// Radar scales to the strongest stat (floor 100 so a fresh save is not a full shape).
+function Radar({ xp }: { xp: number[] }) {
+  const top = Math.max(100, ...xp)
+  return (
+    <svg viewBox="-20 0 240 200" width="100%" style={{ maxWidth: 260, display: 'block', margin: '0 auto' }} role="img" aria-label={`Stat shape: ${STATS.map((s, i) => `${s.name} ${xp[i]} XP`).join(', ')}`}>
+      {[0.33, 0.66, 1].map((k) => (
+        <polygon key={k} points={STATS.map((_, i) => point(i, R * k)).join(' ')} fill="none" stroke="var(--border)" />
+      ))}
+      <polygon points={xp.map((v, i) => point(i, R * (v / top))).join(' ')} fill="var(--accent)" fillOpacity="0.3" stroke="var(--accent)" strokeWidth="2" strokeLinejoin="round" />
+      {STATS.map((s, i) => {
+        const [x, y] = point(i, R + 14).split(',')
+        return <text key={s.id} x={x} y={Number(y) + 4} textAnchor="middle" fontSize="11" fill={s.color}>{s.name}</text>
+      })}
+    </svg>
+  )
+}
 
 export function Stats({ state }: { state: GameState }) {
+  const xp = STATS.map((s) => state.statXp[s.id])
   const total = totalXp(state.statXp)
-  const next = nextRank(total)
+  const rank = rankFor(total)
+  const lowest = STATS.reduce((a, b) => (state.statXp[b.id] < state.statXp[a.id] ? b : a))
   return (
     <main>
-      <h1>Rank {rankFor(total)} · {total} XP</h1>
-      <p>{next ? `${next.minXp - total} XP to rank ${next.rank}` : 'Max rank'}</p>
-      <ul>
-        {STATS.map((st) => {
-          const { level, into, need } = levelProgress(state.statXp[st.id])
-          return (
-            <li key={st.id}>
-              <strong>{st.name}</strong> Lv {level} <progress value={into} max={need} /> {into}/{need}
-            </li>
-          )
-        })}
-      </ul>
+      <header className="hdr sys" style={{ '--bracket': RANK_COLORS[rank] } as CSSProperties}>
+        <RankEmblem rank={rank} />
+        <div className="grow">
+          <h1>Rank {rank}</h1>
+          <p>{total} XP total</p>
+        </div>
+      </header>
+
+      <section className="sys">
+        <Radar xp={xp} />
+        <div className="rings">
+          {STATS.map((st) => {
+            const { level, into, need } = levelProgress(state.statXp[st.id])
+            return (
+              <div key={st.id}>
+                <Ring level={level} pct={into / need} color={st.color} label={`${st.name} level ${level}, ${into} of ${need} XP`} size={84} />
+                <small>{st.name}</small>
+              </div>
+            )
+          })}
+        </div>
+      </section>
+
+      <RankPath total={total} />
+
+      <aside className="sys" style={{ marginTop: 'var(--gap)', padding: '12px 16px', '--bracket': lowest.color } as CSSProperties} aria-label="Focus">
+        <small>FOCUS</small>
+        <p style={{ margin: 0 }}>
+          <b style={{ color: lowest.color }}>{lowest.name}</b> is your lowest stat. A {lowest.name} mission levels it fastest.
+        </p>
+      </aside>
     </main>
   )
 }
