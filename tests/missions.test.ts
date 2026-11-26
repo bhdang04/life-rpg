@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { breakActive, checkIn, completeTap, expireIfDue, newState, startMission, track } from '../src/core/missions'
+import { breakActive, checkIn, completeTap, expireIfDue, logWorkout, newState, startMission, track } from '../src/core/missions'
 
 const T0 = 1_000_000
 const MIN = 60_000
@@ -70,5 +70,15 @@ describe('one-tap and check-ins', () => {
     let s = checkIn(newState('2026-11-25'), 'sleep', 26, '6h', T0)
     expect(s.log.sleep).toMatchObject({ status: 'done', xp: 26, note: '6h' })
     expect(checkIn(s, 'sleep', 30, '8h', T0)).toBe(s)
+  })
+})
+
+describe('logWorkout', () => {
+  it('stores the workout under its date without touching the rest', () => {
+    const s0 = newState('2026-11-25')
+    const w = { split: 'push', entries: [{ ex: 'Shoulder Press', w: 225, r: 6, s: 2 }] }
+    const s1 = logWorkout(s0, '2026-11-25', w)
+    expect(s1.workouts['2026-11-25']).toEqual(w)
+    expect({ ...s1, workouts: {} }).toEqual(s0)
   })
 })
