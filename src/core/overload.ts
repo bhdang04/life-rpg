@@ -17,12 +17,24 @@ export function nextTarget(last: { w: number; r: number }, step: number): { w: n
 
 // Most recent session with this exercise: its top weight, and the fewest reps at that weight.
 // shortcut: a lighter back-off set is ignored, add per-set tracking if that matters
-export function lastSession(workouts: Record<string, Workout>, ex: string): { w: number; r: number; date: string } | null {
+export function lastSession(workouts: Record<string, Workout>, ex: string): { w: number; r: number; reps: number[]; date: string } | null {
   for (const date of Object.keys(workouts).sort().reverse()) {
     const sets = workouts[date].entries.filter((e) => e.ex === ex)
     if (!sets.length) continue
     const w = Math.max(...sets.map((e) => e.w))
-    return { w, r: Math.min(...sets.filter((e) => e.w === w).map((e) => e.r)), date }
+    const reps = sets.filter((e) => e.w === w).map((e) => e.r)
+    return { w, r: Math.min(...reps), reps, date }
   }
   return null
+}
+
+// Exercises from your latest session of this split, each with what you did and what to aim for.
+export function plan(workouts: Record<string, Workout>, split: string) {
+  const date = Object.keys(workouts).sort().reverse().find((d) => workouts[d].split === split)
+  if (!date) return []
+  const exs = [...new Set(workouts[date].entries.map((e) => e.ex))]
+  return exs.map((ex) => {
+    const last = lastSession(workouts, ex)!
+    return { ex, last, target: nextTarget(last, stepFor(ex)) }
+  })
 }
