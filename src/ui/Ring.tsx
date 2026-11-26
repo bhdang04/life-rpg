@@ -1,7 +1,7 @@
 import { ringDash } from '../core/ring'
 
 interface Props {
-  level: number | string // shown in the middle; a string like "1/4" works for counters
+  level: number | string // shown in the middle; a string like "1/4" works for counters, "" leaves the middle empty
   pct: number // 0..1 progress to the next level
   color: string
   label: string // read aloud by screen readers
@@ -17,7 +17,7 @@ export function Ring({ level, pct, color, label, size = 96 }: Props) {
       {pct > 0 && (
         <circle cx="48" cy="48" r="34" fill="none" stroke={color} strokeWidth="8" strokeLinecap="round" strokeDasharray={ringDash(pct)} transform="rotate(-90 48 48)" />
       )}
-      <text x="48" y="58" textAnchor="middle" className="display" fontSize={String(level).length > 2 ? 18 : 28} fontWeight="700" fill="#fff">{level}</text>
+      {level !== '' && <text x="48" y="58" textAnchor="middle" className="display" fontSize={String(level).length > 2 ? 18 : 28} fontWeight="700" fill="#fff">{level}</text>}
     </svg>
   )
 }
