@@ -34,32 +34,36 @@ export function Gym({ state, onChange, onBack }: Props) {
 
   return (
     <main>
-      <button onClick={onBack}>← Back</button>
+      <button className="back" onClick={onBack}>← Back</button>
       <h1>Gym</h1>
-      <p>
+      <div className="splits">
         {SPLITS.map((s) => (
           <button key={s} aria-pressed={s === split} onClick={() => setSplit(s)}>{s}</button>
         ))}
-      </p>
+      </div>
       {rows.length === 0 && <p>No past {split} session to copy.</p>}
       <ul>
         {rows.map(({ ex, last, target }) => {
           const v = get(ex, target.w)
           return (
-            <li key={ex}>
-              <strong>{ex}</strong>
-              <div>last: {last.w} × {last.reps.join(', ')}</div>
-              <div>target: {target.w} × {target.r}</div>
+            <li key={ex} className="lift">
+              <strong className="display">{ex}</strong>
+              <div className="last">last: {last.w} × {last.reps.join(', ')}</div>
+              <div className="target">target: {target.w} × {target.r}</div>
+              <div className="sets">
               <label>lb <input type="number" inputMode="decimal" value={v.w} onChange={(e) => set(ex, target.w, (x) => ({ ...x, w: e.target.value }))} /></label>
-              {[0, 1].map((i) => (
-                <label key={i}> set {i + 1} <input type="number" inputMode="numeric" placeholder={String(target.r)} value={v.r[i]}
-                  onChange={(e) => set(ex, target.w, (x) => ({ ...x, r: i ? [x.r[0], e.target.value] : [e.target.value, x.r[1]] }))} /></label>
-              ))}
+              <label>reps
+                {[0, 1].map((i) => (
+                  <input key={i} type="number" inputMode="numeric" aria-label={`set ${i + 1} reps`} placeholder={String(target.r)} value={v.r[i]}
+                    onChange={(e) => set(ex, target.w, (x) => ({ ...x, r: i ? [x.r[0], e.target.value] : [e.target.value, x.r[1]] }))} />
+                ))}
+              </label>
+              </div>
             </li>
           )
         })}
       </ul>
-      <button disabled={entries.length === 0} onClick={() => { onChange((s) => finishWorkout(s, s.day, { split, entries }, Date.now())); onBack() }}>
+      <button className="finish" disabled={entries.length === 0} onClick={() => { onChange((s) => finishWorkout(s, s.day, { split, entries }, Date.now())); onBack() }}>
         Finish · +50 XP
       </button>
     </main>
