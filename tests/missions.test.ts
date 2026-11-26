@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { breakActive, checkIn, completeTap, expireIfDue, logWorkout, newState, startMission, track } from '../src/core/missions'
+import { breakActive, checkIn, completeTap, expireIfDue, finishWorkout, logWorkout, newState, startMission, track } from '../src/core/missions'
 
 const T0 = 1_000_000
 const MIN = 60_000
@@ -80,5 +80,16 @@ describe('logWorkout', () => {
     const s1 = logWorkout(s0, '2026-11-25', w)
     expect(s1.workouts['2026-11-25']).toEqual(w)
     expect({ ...s1, workouts: {} }).toEqual(s0)
+  })
+})
+
+describe('finishWorkout', () => {
+  it('saves the workout and completes Gym once', () => {
+    const w = { split: 'Pull', entries: [{ ex: 'Lat Rows', w: 80, r: 8, s: 1 }] }
+    const s1 = finishWorkout(newState('2026-11-25'), '2026-11-25', w, T0)
+    expect(s1.workouts['2026-11-25']).toEqual(w)
+    expect(s1.log.gym.status).toBe('done')
+    expect(s1.statXp.body).toBeGreaterThan(0)
+    expect(finishWorkout(s1, '2026-11-25', w, T0 + 1).statXp).toEqual(s1.statXp)
   })
 })
