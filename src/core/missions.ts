@@ -26,6 +26,12 @@ export interface GameState {
   active: ActiveMission | null
   // shortcut: past day logs kept forever with no UI, add a history screen or pruning in V2
   history: Record<string, Record<string, LogEntry>>
+  workouts: Record<string, Workout> // gym sessions by date
+}
+
+export interface Workout {
+  split: string
+  entries: { ex: string; w: number; r: number; s: number }[]
 }
 
 export function newState(today: string): GameState {
@@ -43,6 +49,7 @@ export function newState(today: string): GameState {
     log: {},
     active: null,
     history: {},
+    workouts: {},
   }
 }
 
@@ -95,3 +102,8 @@ export function checkIn(s: GameState, id: string, baseXp: number, note: string, 
   const { state, gained } = earn(s, m.stat, baseXp)
   return { ...state, log: { ...state.log, [id]: { status: 'done', xp: gained, at: now, note } } }
 }
+
+export const logWorkout = (s: GameState, date: string, w: Workout): GameState => ({
+  ...s,
+  workouts: { ...s.workouts, [date]: w },
+})
