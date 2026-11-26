@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './theme/tokens.css'
 import { Board } from './screens/Board'
 import { CheckIn } from './screens/CheckIn'
+import { Gym } from './screens/Gym'
 import { Mission } from './screens/Mission'
 import { Settings } from './screens/Settings'
 import { Stats } from './screens/Stats'
@@ -25,6 +26,7 @@ const ICONS: Record<(typeof TABS)[number], string> = {
 function App() {
   const [state, setState] = useGame()
   const [tab, setTab] = useState<(typeof TABS)[number]>('Board')
+  const [gym, setGym] = useState(false)
   const [ups, setUps] = useState<LevelUpInfo[]>([])
   const seen = useRef(Object.fromEntries(STATS.map((st) => [st.id, levelFor(state.statXp[st.id])])))
   // Compare each stat's level with the last one seen; a jump queues a level-up card (none on first load).
@@ -38,9 +40,10 @@ function App() {
     if (found.length) setUps((q) => [...q, ...found])
   }, [state.statXp])
   if (state.active) return <Mission active={state.active} onChange={setState} />
+  if (gym) return <Gym state={state} onChange={setState} onBack={() => setGym(false)} />
   return (
     <>
-      {tab === 'Board' && <Board state={state} onChange={setState} onCheckIn={() => setTab('Check-in')} />}
+      {tab === 'Board' && <Board state={state} onChange={setState} onCheckIn={() => setTab('Check-in')} onGym={() => setGym(true)} />}
       {tab === 'Check-in' && <CheckIn state={state} onChange={setState} />}
       {tab === 'Stats' && <Stats state={state} onChange={setState} onCheckIn={() => setTab('Check-in')} />}
       {tab === 'Settings' && <Settings state={state} onChange={setState} />}
