@@ -1,5 +1,6 @@
 import { breakActive, newState, type GameState } from '../core/missions'
 import { dayKey, rollover } from '../core/streak'
+import seed from '../config/workoutSeed.json'
 
 export const KEY = 'life-rpg:v1'
 
@@ -11,13 +12,13 @@ const looksValid = (x: any): x is GameState =>
 export function load(store: Pick<Storage, 'getItem' | 'setItem'> = localStorage, now = Date.now()): GameState {
   const raw = store.getItem(KEY)
   const today = dayKey(new Date(now))
-  if (!raw) return newState(today)
+  if (!raw) return { ...newState(today), workouts: seed }
   try {
     const s = JSON.parse(raw)
-    if (looksValid(s)) return rollover(breakActive({ ...s, workouts: s.workouts ?? {} }, now), today)
+    if (looksValid(s)) return rollover(breakActive({ ...s, workouts: Object.keys(s.workouts ?? {}).length ? s.workouts : seed }, now), today)
   } catch {}
   store.setItem(KEY + ':corrupt', raw) // keep the bad save so it can be recovered by hand
-  return newState(today)
+  return { ...newState(today), workouts: seed }
 }
 
 export const save = (s: GameState, store: Pick<Storage, 'setItem'> = localStorage) =>
