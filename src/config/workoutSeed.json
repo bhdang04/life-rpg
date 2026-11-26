@@ -1,0 +1,896 @@
+{
+ "2026-10-30": {
+  "split": "Upper",
+  "entries": [
+   {
+    "ex": "Pec Fly",
+    "w": 190,
+    "r": 12,
+    "s": 1
+   },
+   {
+    "ex": "Pec Fly",
+    "w": 190,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Smith Incline Press",
+    "w": 125,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Smith Incline Press",
+    "w": 125,
+    "r": 5,
+    "s": 1
+   },
+   {
+    "ex": "Lat Pulldown",
+    "w": 165,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Lat Pulldown",
+    "w": 165,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Lat Rows",
+    "w": 72.5,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Lat Rows",
+    "w": 72.5,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Pushdown",
+    "w": 62.5,
+    "r": 12,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Pushdown",
+    "w": 72.5,
+    "r": 9,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Overhead",
+    "w": 47.5,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Overhead",
+    "w": 47.5,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Bicep Curl",
+    "w": 52.5,
+    "r": 9,
+    "s": 1
+   },
+   {
+    "ex": "Bicep Curl",
+    "w": 52.5,
+    "r": 6,
+    "s": 1
+   }
+  ]
+ },
+ "2026-11-02": {
+  "split": "Push",
+  "entries": [
+   {
+    "ex": "Pec Fly",
+    "w": 195,
+    "r": 10,
+    "s": 1
+   },
+   {
+    "ex": "Pec Fly",
+    "w": 195,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Smith Incline Press",
+    "w": 125,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Smith Incline Press",
+    "w": 125,
+    "r": 5,
+    "s": 1
+   },
+   {
+    "ex": "Dips",
+    "w": 0,
+    "r": 10,
+    "s": 2
+   },
+   {
+    "ex": "Tricep Overhead",
+    "w": 47.5,
+    "r": 9,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Overhead",
+    "w": 47.5,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Pushdown",
+    "w": 77.5,
+    "r": 10,
+    "s": 2
+   },
+   {
+    "ex": "Shoulder Press",
+    "w": 200,
+    "r": 9,
+    "s": 1
+   },
+   {
+    "ex": "Shoulder Press",
+    "w": 200,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Lateral Raise",
+    "w": 90,
+    "r": 10,
+    "s": 1
+   },
+   {
+    "ex": "Lateral Raise",
+    "w": 90,
+    "r": 7,
+    "s": 1
+   }
+  ]
+ },
+ "2026-11-03": {
+  "split": "Pull",
+  "entries": [
+   {
+    "ex": "Lat Pulldown",
+    "w": 165,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Lat Pulldown",
+    "w": 165,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Lat Rows",
+    "w": 80,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Lat Rows",
+    "w": 80,
+    "r": 5,
+    "s": 1
+   },
+   {
+    "ex": "Incline DB Rows",
+    "w": 50,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Incline DB Rows",
+    "w": 42.5,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Reverse Flies",
+    "w": 135,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Bicep Curl",
+    "w": 57.5,
+    "r": 9,
+    "s": 1
+   },
+   {
+    "ex": "Bicep Curl",
+    "w": 57.5,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Reverse Flies",
+    "w": 135,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Preacher Curl",
+    "w": 60,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Preacher Curl",
+    "w": 60,
+    "r": 5,
+    "s": 1
+   }
+  ]
+ },
+ "2026-11-05": {
+  "split": "Legs",
+  "entries": [
+   {
+    "ex": "Squat",
+    "w": 100,
+    "r": 8,
+    "s": 2
+   },
+   {
+    "ex": "Hip Adductor",
+    "w": 170,
+    "r": 14,
+    "s": 1
+   },
+   {
+    "ex": "Hip Adductor",
+    "w": 190,
+    "r": 11,
+    "s": 1
+   },
+   {
+    "ex": "Seated Leg Curl",
+    "w": 110,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Seated Leg Curl",
+    "w": 110,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Shoulder Press",
+    "w": 200,
+    "r": 10,
+    "s": 1
+   },
+   {
+    "ex": "Reverse Flies",
+    "w": 140,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Reverse Flies",
+    "w": 140,
+    "r": 5,
+    "s": 1
+   },
+   {
+    "ex": "Lateral Raise",
+    "w": 95,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Lateral Raise",
+    "w": 95,
+    "r": 7,
+    "s": 1
+   }
+  ]
+ },
+ "2026-11-06": {
+  "split": "Upper",
+  "entries": [
+   {
+    "ex": "Smith Incline Press",
+    "w": 130,
+    "r": 5,
+    "s": 1
+   },
+   {
+    "ex": "Pec Fly",
+    "w": 195,
+    "r": 9,
+    "s": 1
+   },
+   {
+    "ex": "Pec Fly",
+    "w": 195,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Dips",
+    "w": 0,
+    "r": 12,
+    "s": 1
+   },
+   {
+    "ex": "Dips",
+    "w": 0,
+    "r": 10,
+    "s": 1
+   },
+   {
+    "ex": "Lat Rows",
+    "w": 80,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Lat Rows",
+    "w": 80,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Smith Incline Press",
+    "w": 130,
+    "r": 5,
+    "s": 1
+   },
+   {
+    "ex": "Lat Pulldown",
+    "w": 165,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Lat Pulldown",
+    "w": 170,
+    "r": 5,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Overhead",
+    "w": 50,
+    "r": 9,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Overhead",
+    "w": 50,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Bicep Curl",
+    "w": 65,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Bicep Curl",
+    "w": 65,
+    "r": 5,
+    "s": 1
+   }
+  ]
+ },
+ "2026-11-09": {
+  "split": "Push",
+  "entries": [
+   {
+    "ex": "Pec Fly",
+    "w": 200,
+    "r": 9,
+    "s": 1
+   },
+   {
+    "ex": "Pec Fly",
+    "w": 200,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Dips",
+    "w": 0,
+    "r": 12,
+    "s": 1
+   },
+   {
+    "ex": "Dips",
+    "w": 0,
+    "r": 12,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Pushdown",
+    "w": 80,
+    "r": 12,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Pushdown",
+    "w": 80,
+    "r": 10,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Overhead",
+    "w": 50,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Overhead",
+    "w": 50,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Smith Incline Press",
+    "w": 125,
+    "r": 5,
+    "s": 1
+   },
+   {
+    "ex": "Smith Incline Press",
+    "w": 120,
+    "r": 5,
+    "s": 1
+   },
+   {
+    "ex": "Smith Shoulder Press",
+    "w": 45,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Smith Shoulder Press",
+    "w": 45,
+    "r": 5,
+    "s": 1
+   },
+   {
+    "ex": "Lateral Raise",
+    "w": 100,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Lateral Raise",
+    "w": 100,
+    "r": 5,
+    "s": 1
+   }
+  ]
+ },
+ "2026-11-10": {
+  "split": "Pull",
+  "entries": [
+   {
+    "ex": "Lat Rows",
+    "w": 80,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Lat Rows",
+    "w": 80,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Lat Pulldown",
+    "w": 170,
+    "r": 6,
+    "s": 2
+   },
+   {
+    "ex": "Reverse Flies",
+    "w": 135,
+    "r": 10,
+    "s": 1
+   },
+   {
+    "ex": "Reverse Flies",
+    "w": 135,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Bicep Curl",
+    "w": 65,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Bicep Curl",
+    "w": 65,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Preacher Curl",
+    "w": 60,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Preacher Curl",
+    "w": 60,
+    "r": 6,
+    "s": 1
+   }
+  ]
+ },
+ "2026-11-12": {
+  "split": "Legs",
+  "entries": [
+   {
+    "ex": "Squat",
+    "w": 110,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Squat",
+    "w": 110,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Hip Adductor",
+    "w": 215,
+    "r": 14,
+    "s": 1
+   },
+   {
+    "ex": "Hip Adductor",
+    "w": 230,
+    "r": 12,
+    "s": 1
+   },
+   {
+    "ex": "Seated Leg Curl",
+    "w": 130,
+    "r": 10,
+    "s": 1
+   },
+   {
+    "ex": "Seated Leg Curl",
+    "w": 130,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Reverse Flies",
+    "w": 140,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Reverse Flies",
+    "w": 140,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Shoulder Press",
+    "w": 210,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Shoulder Press",
+    "w": 210,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Lateral Raise",
+    "w": 100,
+    "r": 8,
+    "s": 2
+   }
+  ]
+ },
+ "2026-11-16": {
+  "split": "Push",
+  "entries": [
+   {
+    "ex": "Smith Incline Press",
+    "w": 120,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Smith Incline Press",
+    "w": 120,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Pec Fly",
+    "w": 205,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Pec Fly",
+    "w": 205,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Dips",
+    "w": 0,
+    "r": 14,
+    "s": 2
+   },
+   {
+    "ex": "Shoulder Press",
+    "w": 220,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Shoulder Press",
+    "w": 220,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "DB Shoulder Press",
+    "w": 87.5,
+    "r": 10,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Pushdown",
+    "w": 87.5,
+    "r": 10,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Pushdown",
+    "w": 87.5,
+    "r": 10,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Overhead",
+    "w": 57.5,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Overhead",
+    "w": 57.5,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Lateral Raise",
+    "w": 105,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Lateral Raise",
+    "w": 100,
+    "r": 7,
+    "s": 1
+   }
+  ]
+ },
+ "2026-11-17": {
+  "split": "Pull",
+  "entries": [
+   {
+    "ex": "Lat Rows",
+    "w": 82.5,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Lat Pulldown",
+    "w": 170,
+    "r": 8,
+    "s": 2
+   },
+   {
+    "ex": "Lat Rows",
+    "w": 82.5,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Reverse Flies",
+    "w": 145,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Reverse Flies",
+    "w": 145,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Preacher Curl",
+    "w": 65,
+    "r": 6,
+    "s": 1
+   }
+  ]
+ },
+ "2026-11-23": {
+  "split": "Push",
+  "entries": [
+   {
+    "ex": "Smith Incline Press",
+    "w": 125,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Smith Incline Press",
+    "w": 125,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Pec Fly",
+    "w": 195,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Pec Fly",
+    "w": 195,
+    "r": 5,
+    "s": 1
+   },
+   {
+    "ex": "Shoulder Press",
+    "w": 225,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Shoulder Press",
+    "w": 225,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Pushdown",
+    "w": 92.5,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Pushdown",
+    "w": 92.5,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Pushdown",
+    "w": 62.5,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Lateral Raise",
+    "w": 105,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Lateral Raise",
+    "w": 105,
+    "r": 4,
+    "s": 1
+   },
+   {
+    "ex": "Tricep Overhead",
+    "w": 62.5,
+    "r": 8,
+    "s": 2
+   }
+  ]
+ },
+ "2026-11-24": {
+  "split": "Pull",
+  "entries": [
+   {
+    "ex": "Lat Pulldown",
+    "w": 175,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Lat Pulldown",
+    "w": 175,
+    "r": 6,
+    "s": 1
+   },
+   {
+    "ex": "Lat Rows",
+    "w": 80,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Wide Grip Lat Rows",
+    "w": 57.5,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Wide Grip Lat Rows",
+    "w": 62.5,
+    "r": 8,
+    "s": 1
+   },
+   {
+    "ex": "Lat Rows",
+    "w": 80,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Preacher Curl",
+    "w": 90,
+    "r": 7,
+    "s": 1
+   },
+   {
+    "ex": "Preacher Curl",
+    "w": 90,
+    "r": 5,
+    "s": 1
+   },
+   {
+    "ex": "Bicep Curl",
+    "w": 72.5,
+    "r": 5,
+    "s": 1
+   },
+   {
+    "ex": "Bicep Curl",
+    "w": 67.5,
+    "r": 5,
+    "s": 1
+   },
+   {
+    "ex": "Reverse Flies",
+    "w": 145,
+    "r": 8,
+    "s": 1
+   }
+  ]
+ }
+}
