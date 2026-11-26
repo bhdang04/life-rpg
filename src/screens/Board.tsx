@@ -14,6 +14,7 @@ interface Props {
 }
 
 const ACTION = { tap: 'Done', timed: 'Start', checkin: 'Check in' } as const
+const label = (m: MissionDef) => (m.id === 'gym' ? 'Log' : ACTION[m.kind])
 
 // Status icon, so state is never shown by color alone.
 function Icon({ kind }: { kind: 'done' | 'next' | 'bad' | 'open' }) {
@@ -40,7 +41,7 @@ function Row({ m, state, act, next }: { m: MissionDef; state: GameState; act: (m
   const done = isDone(state, m.id)
   const broken = !!entry && !done
   const detail =
-    m.kind === 'timed' ? `${minutesFor(state, m.id)} min · ${m.tracker!.target} ${m.tracker!.label}` : m.kind === 'checkin' ? 'log once a day' : 'tap when done'
+    m.kind === 'timed' ? `${minutesFor(state, m.id)} min · ${m.tracker!.target} ${m.tracker!.label}` : m.kind === 'checkin' ? 'log once a day' : m.id === 'gym' ? 'log your sets' : 'tap when done'
   return (
     <li>
       <Icon kind={done ? 'done' : broken ? 'bad' : next ? 'next' : 'open'} />
@@ -48,7 +49,7 @@ function Row({ m, state, act, next }: { m: MissionDef; state: GameState; act: (m
         <strong>{m.name}</strong> +{m.xp} {m.stat} · {detail}
         {broken && <em> · {entry.status} ({entry.xp} XP), retry allowed</em>}
       </span>
-      {done ? <span>+{entry.xp} XP</span> : <button onClick={() => act(m)}>{broken ? 'Retry' : ACTION[m.kind]}</button>}
+      {done ? <span>+{entry.xp} XP</span> : <button onClick={() => act(m)}>{broken ? 'Retry' : label(m)}</button>}
     </li>
   )
 }
@@ -121,7 +122,7 @@ export function Board({ state, onChange, onCheckIn, onGym }: Props) {
             <strong className="display">{next.name}</strong>
             <span>{next.kind === 'timed' ? `${minutesFor(state, next.id)} min · ` : ''}+{next.xp} XP</span>
           </div>
-          <button className="go" onClick={() => act(next)}>{ACTION[next.kind]}</button>
+          <button className="go" onClick={() => act(next)}>{label(next)}</button>
         </aside>
       )}
     </main>
