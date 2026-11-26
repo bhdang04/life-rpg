@@ -26,12 +26,12 @@ export const MISSIONS: MissionDef[] = [
   { id: 'money', name: 'Money', kind: 'checkin', xp: 20, stat: 'money', required: false },
 ]
 
-export const STATS: { id: Stat; name: string }[] = [
-  { id: 'body', name: 'Body' },
-  { id: 'craft', name: 'Craft' },
-  { id: 'mind', name: 'Mind' },
-  { id: 'discipline', name: 'Discipline' },
-  { id: 'money', name: 'Money' },
+export const STATS: { id: Stat; name: string; color: string }[] = [
+  { id: 'body', name: 'Body', color: '#f87171' },
+  { id: 'craft', name: 'Craft', color: '#60a5fa' },
+  { id: 'mind', name: 'Mind', color: '#4ade80' },
+  { id: 'discipline', name: 'Discipline', color: '#a78bfa' },
+  { id: 'money', name: 'Money', color: '#fbbf24' },
 ]
 
 export const XP_PER_LEVEL = 100
@@ -44,6 +44,16 @@ export const RANKS = [
   { rank: 'A', minXp: 15000 },
   { rank: 'S', minXp: 30000 },
 ] as const
+
+// Accent color per overall rank. The rank emblem and rank path change color as you rank up.
+export const RANK_COLORS: Record<string, string> = {
+  E: '#94a3b8',
+  D: '#4ade80',
+  C: '#38bdf8',
+  B: '#a78bfa',
+  A: '#fbbf24',
+  S: '#f43f5e',
+}
 
 export const STREAK_BONUS_PER_DAY = 0.1
 export const STREAK_BONUS_CAP = 0.5
