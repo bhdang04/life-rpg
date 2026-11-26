@@ -26,7 +26,7 @@ export function StatDetail({ stat, state, onBack, onStart }: Props) {
         <p>{Math.round((into / need) * 100)}% to Level {level + 1} · {need - into} XP to go</p>
       </section>
       <section>
-        <h2 className="display">RAISED BY</h2>
+        <h2 className="display" style={{ color: st.color }}>RAISED BY</h2>
         <ul>
           {missions.map((m) => (
             <li key={m.id}>
@@ -36,7 +36,7 @@ export function StatDetail({ stat, state, onBack, onStart }: Props) {
           ))}
         </ul>
       </section>
-      {next && <button className="go" onClick={() => onStart(next)}>Start {next.name}</button>}
+      {next && <button style={{ width: '100%', minHeight: 56, background: st.color, color: '#1b0b3f', border: 0, fontWeight: 600 }} onClick={() => onStart(next)}>Start {next.name}</button>}
     </main>
   )
 }
