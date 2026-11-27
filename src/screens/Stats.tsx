@@ -1,6 +1,6 @@
 import { useState, type CSSProperties } from 'react'
 import { RANK_COLORS, STATS, type MissionDef, type Stat } from '../config/missions'
-import { completeTap, startMission, type GameState } from '../core/missions'
+import { begin, type GameState } from '../core/missions'
 import { levelProgress, rankFor, totalXp } from '../core/ranks'
 import { History } from '../ui/History'
 import { RankEmblem } from '../ui/RankEmblem'
@@ -10,10 +10,11 @@ import { StatDetail } from '../ui/StatDetail'
 
 const C = 100 // radar center
 const R = 80 // radar outer radius
-const point = (i: number, r: number) => {
+const point = (i: number, r: number): [number, number] => {
   const a = (-90 + (360 / STATS.length) * i) * (Math.PI / 180)
-  return `${(C + r * Math.cos(a)).toFixed(1)},${(C + r * Math.sin(a)).toFixed(1)}`
+  return [C + r * Math.cos(a), C + r * Math.sin(a)]
 }
+const poly = (r: (i: number) => number) => STATS.map((_, i) => point(i, r(i)).map((n) => n.toFixed(1)).join(',')).join(' ')
 
 // Radar scales to the strongest stat (floor 100 so a fresh save is not a full shape).
 function Radar({ xp }: { xp: number[] }) {
@@ -21,16 +22,16 @@ function Radar({ xp }: { xp: number[] }) {
   return (
     <svg viewBox="-20 0 240 200" width="100%" style={{ maxWidth: 300, display: 'block', margin: '0 auto' }} role="img" aria-label={`Stat shape: ${STATS.map((s, i) => `${s.name} ${xp[i]} XP`).join(', ')}`}>
       {[0.33, 0.66, 1].map((k) => (
-        <polygon key={k} points={STATS.map((_, i) => point(i, R * k)).join(' ')} fill="none" stroke="var(--border)" />
+        <polygon key={k} points={poly(() => R * k)} fill="none" stroke="var(--border)" />
       ))}
-      <polygon points={xp.map((v, i) => point(i, R * (v / top))).join(' ')} fill="rgba(167,139,250,0.35)" stroke="#c4b5fd" strokeWidth="2" strokeLinejoin="round" style={{ filter: 'drop-shadow(0 0 8px #a78bfa)' }} />
+      <polygon points={poly((i) => R * (xp[i] / top))} fill="rgba(167,139,250,0.35)" stroke="#c4b5fd" strokeWidth="2" strokeLinejoin="round" style={{ filter: 'drop-shadow(0 0 8px #a78bfa)' }} />
       {STATS.map((s, i) => {
-        const [x, y] = point(i, R * (xp[i] / top)).split(',')
+        const [x, y] = point(i, R * (xp[i] / top))
         return <circle key={s.id} cx={x} cy={y} r="4.5" fill={s.color} />
       })}
       {STATS.map((s, i) => {
-        const [x, y] = point(i, R + 14).split(',')
-        return <text key={s.id} x={x} y={Number(y) + 4} textAnchor="middle" className="display" fontSize="11" fontWeight="700" fill="#ece8ff">{s.name.slice(0, 3).toUpperCase()}</text>
+        const [x, y] = point(i, R + 14)
+        return <text key={s.id} x={x} y={y + 4} textAnchor="middle" className="display" fontSize="11" fontWeight="700" fill="#ece8ff">{s.name.slice(0, 3).toUpperCase()}</text>
       })}
     </svg>
   )
@@ -49,8 +50,7 @@ export function Stats({ state, onChange, onCheckIn }: Props) {
   const rank = rankFor(total)
   const lowest = STATS.reduce((a, b) => (state.statXp[b.id] < state.statXp[a.id] ? b : a))
   // Same start rules as the Board.
-  const start = (m: MissionDef) =>
-    m.kind === 'checkin' ? onCheckIn() : onChange((g) => (m.kind === 'tap' ? completeTap(g, m.id, Date.now()) : startMission(g, m.id, Date.now())))
+  const start = (m: MissionDef) => (m.kind === 'checkin' ? onCheckIn() : onChange((g) => begin(g, m.id, Date.now())))
   if (open) return <StatDetail stat={open} state={state} onBack={() => setOpen(null)} onStart={start} />
   return (
     <main>
