@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { breakActive, checkIn, completeTap, expireIfDue, finishWorkout, logWorkout, newState, startMission, track } from '../src/core/missions'
+import { begin, breakActive, checkIn, completeTap, expireIfDue, finishWorkout, logWorkout, newState, startMission, track } from '../src/core/missions'
 
 const T0 = 1_000_000
 const MIN = 60_000
@@ -91,5 +91,12 @@ describe('finishWorkout', () => {
     expect(s1.log.gym.status).toBe('done')
     expect(s1.statXp.body).toBeGreaterThan(0)
     expect(finishWorkout(s1, '2026-11-25', w, T0 + 1).statXp).toEqual(s1.statXp)
+  })
+})
+
+describe('begin', () => {
+  it('completes a tap mission and starts a timed one', () => {
+    expect(begin(newState('2026-11-25'), 'filming', T0).log.filming.status).toBe('done')
+    expect(begin(newState('2026-11-25'), 'work', T0).active?.id).toBe('work')
   })
 })
