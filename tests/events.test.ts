@@ -18,9 +18,8 @@ describe('feedbackFor', () => {
   it('leaves level-ups to the LevelUp card', () => {
     expect(feedbackFor(withXp('body', 90), withXp('body', 110)).lines).toEqual([])
   })
-  it('announces a rank up but not a rank drop', () => {
-    expect(feedbackFor(withXp('body', 990), withXp('body', 1010)).lines).toContain('[System] Rank D reached')
-    expect(feedbackFor(withXp('body', 1010), withXp('body', 990)).lines).not.toContain('[System] Rank E reached')
+  it('leaves rank-ups to the RankUp card', () => {
+    expect(feedbackFor(withXp('body', 990), withXp('body', 1010)).lines).toEqual([])
   })
   it('flags day complete once', () => {
     const done = base()
