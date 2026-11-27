@@ -16,5 +16,6 @@ Vite + React + TypeScript PWA. V1 only (local data, no server).
 - Commit one file per commit, format `feat: ...`, `fix: ...`, `docs: ...`, `test: ...`.
 - Before each build step, give a one-line size check and wait for "go".
 
-## Not tested on a real phone
-Wake Lock, Guided Access, the visibilitychange break, Copy JSON, and PWA install.
+## Real phone
+Tested on an iPhone: Wake Lock, the visibilitychange break, Copy JSON, PWA install, and the level-up, rank-up and new-best cards.
+Not tested: haptics (Android only, iOS Safari has no vibrate). Guided Access is not needed.
