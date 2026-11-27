@@ -13,6 +13,7 @@ import { STATS } from './config/missions'
 import { levelFor, rankFor, totalXp } from './core/ranks'
 import { useGame } from './store/useGame'
 import { LevelUp, type LevelUpInfo } from './ui/LevelUp'
+import { PrCard, type Pr } from './ui/PrCard'
 import { RankUp, type RankUpInfo } from './ui/RankUp'
 
 const TABS = ['Board', 'Check-in', 'Stats', 'Settings'] as const
@@ -31,6 +32,7 @@ function App() {
   const [tab, setTab] = useState<(typeof TABS)[number]>('Board')
   const [gym, setGym] = useState(false)
   const [dayDone, setDayDone] = useState(false)
+  const [prs, setPrs] = useState<Pr[]>([])
   const [ups, setUps] = useState<LevelUpInfo[]>([])
   const seen = useRef(Object.fromEntries(STATS.map((st) => [st.id, levelFor(state.statXp[st.id])])))
   // Compare each stat's level with the last one seen; a jump queues a level-up card (none on first load).
@@ -52,7 +54,7 @@ function App() {
     if (nt > pt && rankFor(nt) !== rankFor(pt)) setRankUps((q) => [...q, { from: rankFor(pt), to: rankFor(nt) }])
   }, [state.statXp])
   // Feedback stays mounted across every screen so it can compare each state change with the last.
-  const screen = state.active ? <Mission active={state.active} onChange={setState} /> : gym ? <Gym state={state} onChange={setState} onBack={() => setGym(false)} /> : (
+  const screen = state.active ? <Mission active={state.active} onChange={setState} /> : gym ? <Gym state={state} onChange={setState} onBack={() => setGym(false)} onPr={setPrs} /> : (
     <>
       <div className="screen" key={tab}>
         {tab === 'Board' && <Board state={state} onChange={setState} onCheckIn={() => setTab('Check-in')} onGym={() => setGym(true)} />}
@@ -62,7 +64,8 @@ function App() {
       </div>
       {ups[0] && !state.active && <LevelUp info={ups[0]} total={totalXp(state.statXp)} onClose={() => setUps((q) => q.slice(1))} />}
       {rankUps[0] && !ups[0] && !state.active && <RankUp info={rankUps[0]} total={totalXp(state.statXp)} onClose={() => setRankUps((q) => q.slice(1))} />}
-      {dayDone && !ups[0] && !rankUps[0] && <DayComplete state={state} onClose={() => setDayDone(false)} />}
+      {prs.length > 0 && !ups[0] && !rankUps[0] && !state.active && <PrCard prs={prs} onClose={() => setPrs([])} />}
+      {dayDone && !ups[0] && !rankUps[0] && !prs.length && <DayComplete state={state} onClose={() => setDayDone(false)} />}
       <nav>
         {TABS.map((t) => (
           <button key={t} aria-current={t === tab} onClick={() => setTab(t)}>
