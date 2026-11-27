@@ -95,6 +95,10 @@ export function completeTap(s: GameState, id: string, now: number): GameState {
   return { ...state, log: { ...state.log, [id]: { status: 'done', xp: gained, at: now } } }
 }
 
+// What the Board and Stats buttons do: a tap mission completes, a timed one starts.
+export const begin = (s: GameState, id: string, now: number): GameState =>
+  missionById(id).kind === 'tap' ? completeTap(s, id, now) : startMission(s, id, now)
+
 // baseXp comes from sleepXp / moodXp / moneyXp. Once per day.
 export function checkIn(s: GameState, id: string, baseXp: number, note: string, now: number): GameState {
   const m = missionById(id)
