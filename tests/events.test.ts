@@ -12,14 +12,8 @@ const withXp = (stat: 'body' | 'craft', xp: number) => {
 
 describe('feedbackFor', () => {
   it('reports XP gained and lost', () => {
-    expect(feedbackFor(base(), withXp('body', 50))).toEqual({ xp: 50, lines: [], dayComplete: false })
+    expect(feedbackFor(base(), withXp('body', 50))).toEqual({ xp: 50, dayComplete: false })
     expect(feedbackFor(withXp('body', 50), withXp('body', 45)).xp).toBe(-5)
-  })
-  it('leaves level-ups to the LevelUp card', () => {
-    expect(feedbackFor(withXp('body', 90), withXp('body', 110)).lines).toEqual([])
-  })
-  it('leaves rank-ups to the RankUp card', () => {
-    expect(feedbackFor(withXp('body', 990), withXp('body', 1010)).lines).toEqual([])
   })
   it('flags day complete once', () => {
     const done = base()
@@ -29,6 +23,6 @@ describe('feedbackFor', () => {
   })
   it('stays silent across a day rollover', () => {
     const next = { ...withXp('body', 500), day: '2026-11-26' }
-    expect(feedbackFor(base(), next)).toEqual({ xp: 0, lines: [], dayComplete: false })
+    expect(feedbackFor(base(), next)).toEqual({ xp: 0, dayComplete: false })
   })
 })
