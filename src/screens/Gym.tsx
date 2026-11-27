@@ -38,12 +38,16 @@ export function Gym({ state, onChange, onBack, onPr }: Props) {
   }
 
   // One entry per set, like the Daily HQ history; an exercise with a blank or invalid set is skipped.
+  // shortcut: 2 sets per lift, add a set-count control if you do 3
   const entries = rows.flatMap(({ ex, target }) => {
     const v = get(ex, target?.w)
     const w = Number(v.w)
     const r = v.r.map((x) => (x.trim() === '' ? NaN : Number(x)))
     return v.w.trim() !== '' && w >= 0 && r.every((n) => Number.isInteger(n) && n > 0) ? r.map((n) => ({ ex, w, r: n, s: 1 })) : []
   })
+
+  const saved = new Set(entries.map((e) => e.ex))
+  const skipped = rows.filter(({ ex, target }) => get(ex, target?.w).r.some((x) => x.trim() !== '') && !saved.has(ex)).length // typed into, but not valid
 
   return (
     <main>
@@ -81,6 +85,7 @@ export function Gym({ state, onChange, onBack, onPr }: Props) {
         <datalist id="gym-ex">{known.map((k) => <option key={k} value={k} />)}</datalist>
         <button disabled={!adding.trim()} onClick={add}>Add</button>
       </div>
+      {skipped > 0 && <p role="status" className="warn">{skipped} {skipped > 1 ? 'lifts' : 'lift'} will be skipped: fill the weight and both sets.</p>}
       <button className="finish" disabled={entries.length === 0} onClick={() => { onPr(newBests(state.workouts, state.day, { split, entries })); onChange((s) => finishWorkout(s, s.day, { split, entries }, Date.now())); onBack() }}>
         Finish · +50 XP
       </button>
