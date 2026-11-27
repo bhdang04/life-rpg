@@ -17,3 +17,4 @@ One line per decision, and why.
 - No router: the screen changes with a `useState` tab, so there's one less dependency.
 - Rank-up is a full-screen card (like level-up), not a toast; it queues after level-ups and before Day complete.
 - New best (PR): top weight beats every earlier session, or same weight with more reps. A first-ever exercise is not a PR. A card shows after Gym finish.
+- Deploy the app to a private host only: the workout seed in the bundle is real training history.
