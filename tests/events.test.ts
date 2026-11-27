@@ -12,7 +12,7 @@ const withXp = (stat: 'body' | 'craft', xp: number) => {
 
 describe('feedbackFor', () => {
   it('reports XP gained and lost', () => {
-    expect(feedbackFor(base(), withXp('body', 50))).toEqual({ xp: 50, lines: [] })
+    expect(feedbackFor(base(), withXp('body', 50))).toEqual({ xp: 50, lines: [], dayComplete: false })
     expect(feedbackFor(withXp('body', 50), withXp('body', 45)).xp).toBe(-5)
   })
   it('leaves level-ups to the LevelUp card', () => {
@@ -22,14 +22,14 @@ describe('feedbackFor', () => {
     expect(feedbackFor(withXp('body', 990), withXp('body', 1010)).lines).toContain('[System] Rank D reached')
     expect(feedbackFor(withXp('body', 1010), withXp('body', 990)).lines).not.toContain('[System] Rank E reached')
   })
-  it('announces day complete once', () => {
+  it('flags day complete once', () => {
     const done = base()
     for (const id of REQUIRED_IDS) done.log[id] = { status: 'done', xp: 0, at: 0 }
-    expect(feedbackFor(base(), done).lines).toEqual(['[System] All daily quests complete. Good place to stop.'])
-    expect(feedbackFor(done, done).lines).toEqual([])
+    expect(feedbackFor(base(), done).dayComplete).toBe(true)
+    expect(feedbackFor(done, done).dayComplete).toBe(false)
   })
   it('stays silent across a day rollover', () => {
     const next = { ...withXp('body', 500), day: '2026-11-26' }
-    expect(feedbackFor(base(), next)).toEqual({ xp: 0, lines: [] })
+    expect(feedbackFor(base(), next)).toEqual({ xp: 0, lines: [], dayComplete: false })
   })
 })
