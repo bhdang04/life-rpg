@@ -72,3 +72,18 @@ describe('rowFor', () => {
     expect(rowFor({}, 'Cable Crunch')).toEqual({ ex: 'Cable Crunch', last: null, target: null })
   })
 })
+
+import { newBests } from '../src/core/overload'
+
+describe('newBests', () => {
+  const day = (ex: string, w: number, ...r: number[]) => ({ split: 'Push', entries: r.map((n) => ({ ex, w, r: n, s: 1 })) })
+  const past = { '2026-11-01': day('Bench', 100, 8, 8), '2026-11-08': day('Bench', 105, 6, 7) }
+  it('flags more weight', () => expect(newBests(past, '2026-11-15', day('Bench', 110, 5, 5))).toEqual([{ ex: 'Bench', w: 110, r: 5 }]))
+  it('flags more reps at the same top weight', () => expect(newBests(past, '2026-11-15', day('Bench', 105, 7, 8))).toEqual([{ ex: 'Bench', w: 105, r: 7 }]))
+  it('ignores a tie, a lighter day and a first-ever exercise', () => {
+    expect(newBests(past, '2026-11-15', day('Bench', 105, 6, 6))).toEqual([])
+    expect(newBests(past, '2026-11-15', day('Bench', 100, 12, 12))).toEqual([])
+    expect(newBests(past, '2026-11-15', day('Squat', 200, 5, 5))).toEqual([])
+  })
+  it('skips the same date when redoing a workout', () => expect(newBests(past, '2026-11-08', day('Bench', 100, 8, 8))).toEqual([]))
+})
