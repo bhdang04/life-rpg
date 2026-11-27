@@ -40,3 +40,26 @@ export function plan(workouts: Record<string, Workout>, split: string) {
   if (!date) return []
   return [...new Set(workouts[date].entries.map((e) => e.ex))].map((ex) => rowFor(workouts, ex))
 }
+
+// A session's top weight and the fewest reps at it, per exercise (same rule as lastSession).
+const tops = (w: Workout) => {
+  const out: Record<string, { w: number; r: number }> = {}
+  for (const ex of new Set(w.entries.map((e) => e.ex))) {
+    const sets = w.entries.filter((e) => e.ex === ex)
+    const top = Math.max(...sets.map((e) => e.w))
+    out[ex] = { w: top, r: Math.min(...sets.filter((e) => e.w === top).map((e) => e.r)) }
+  }
+  return out
+}
+
+// Exercises where `done` beats every earlier session: more weight, or the same weight with more reps.
+// A first-ever session is not a PR. `date` is skipped so redoing today's workout compares against the past.
+// shortcut: compares only each session's top weight, a heavier-reps trade-off at a lighter weight is not seen
+export function newBests(workouts: Record<string, Workout>, date: string, done: Workout): { ex: string; w: number; r: number }[] {
+  const past = Object.entries(workouts).filter(([d]) => d !== date).map(([, w]) => tops(w))
+  return Object.entries(tops(done)).flatMap(([ex, t]) => {
+    const prior = past.flatMap((p) => (p[ex] ? [p[ex]] : []))
+    const beat = prior.length > 0 && prior.every((p) => t.w > p.w || (t.w === p.w && t.r > p.r))
+    return beat ? [{ ex, ...t }] : []
+  })
+}
