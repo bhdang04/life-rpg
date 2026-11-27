@@ -1,6 +1,7 @@
 import { StrictMode, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import './theme/tokens.css'
+import { Feedback } from './components/Feedback'
 import { Board } from './screens/Board'
 import { CheckIn } from './screens/CheckIn'
 import { Gym } from './screens/Gym'
@@ -39,14 +40,15 @@ function App() {
     })
     if (found.length) setUps((q) => [...q, ...found])
   }, [state.statXp])
-  if (state.active) return <Mission active={state.active} onChange={setState} />
-  if (gym) return <Gym state={state} onChange={setState} onBack={() => setGym(false)} />
-  return (
+  // Feedback stays mounted across every screen so it can compare each state change with the last.
+  const screen = state.active ? <Mission active={state.active} onChange={setState} /> : gym ? <Gym state={state} onChange={setState} onBack={() => setGym(false)} /> : (
     <>
-      {tab === 'Board' && <Board state={state} onChange={setState} onCheckIn={() => setTab('Check-in')} onGym={() => setGym(true)} />}
-      {tab === 'Check-in' && <CheckIn state={state} onChange={setState} />}
-      {tab === 'Stats' && <Stats state={state} onChange={setState} onCheckIn={() => setTab('Check-in')} />}
-      {tab === 'Settings' && <Settings state={state} onChange={setState} />}
+      <div className="screen" key={tab}>
+        {tab === 'Board' && <Board state={state} onChange={setState} onCheckIn={() => setTab('Check-in')} onGym={() => setGym(true)} />}
+        {tab === 'Check-in' && <CheckIn state={state} onChange={setState} />}
+        {tab === 'Stats' && <Stats state={state} onChange={setState} onCheckIn={() => setTab('Check-in')} />}
+        {tab === 'Settings' && <Settings state={state} onChange={setState} />}
+      </div>
       {ups[0] && !state.active && <LevelUp info={ups[0]} total={totalXp(state.statXp)} onClose={() => setUps((q) => q.slice(1))} />}
       <nav>
         {TABS.map((t) => (
@@ -58,6 +60,7 @@ function App() {
       </nav>
     </>
   )
+  return <><Feedback state={state} />{screen}</>
 }
 
 createRoot(document.getElementById('root')!).render(
