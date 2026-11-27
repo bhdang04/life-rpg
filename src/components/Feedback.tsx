@@ -26,21 +26,18 @@ function Gain({ xp }: { xp: number }) {
   return <div className={xp < 0 ? 'gain loss' : 'gain'}>{v > 0 ? '+' : ''}{v} XP</div>
 }
 
-// Floating "+50 XP" and a [System] toast after a change. Each plays once, never loops, never blocks taps.
+// Floating "+50 XP" after a change. Each plays once, never loops, never blocks taps.
 export function Feedback({ state, onDayComplete }: { state: GameState; onDayComplete: () => void }) {
   const prev = useRef(state)
   const [gain, setGain] = useState<{ xp: number; id: number } | null>(null)
-  const [toast, setToast] = useState<{ lines: string[]; id: number } | null>(null)
 
   useEffect(() => {
-    const { xp, lines, dayComplete } = feedbackFor(prev.current, state)
+    const { xp, dayComplete } = feedbackFor(prev.current, state)
     prev.current = state
     if (xp && !dayComplete) setGain({ xp, id: Date.now() }) // the Day complete screen already shows the total
-    if (lines.length) setToast({ lines, id: Date.now() })
     // Later buzz replaces an earlier one, so the biggest moment goes last.
     if (xp > 0) buzz(15)
     if (xp < 0) buzz([40, 60, 40])
-    if (lines.length) buzz([30, 50, 60])
     if (dayComplete) {
       buzz([20, 40, 20, 40, 80])
       onDayComplete()
@@ -52,16 +49,10 @@ export function Feedback({ state, onDayComplete }: { state: GameState; onDayComp
     const t = setTimeout(() => setGain(null), 900)
     return () => clearTimeout(t)
   }, [gain])
-  useEffect(() => {
-    if (!toast) return
-    const t = setTimeout(() => setToast(null), 2800)
-    return () => clearTimeout(t)
-  }, [toast])
 
   return (
     <>
       {gain && <Gain key={gain.id} xp={gain.xp} />}
-      {toast && <div key={toast.id} className="toast" role="status">{toast.lines.map((l) => <p key={l}>{l}</p>)}</div>}
     </>
   )
 }
