@@ -1,5 +1,6 @@
 import { breakActive, newState, type GameState } from '../core/missions'
 import { dayKey, rollover } from '../core/streak'
+// shortcut: the seed is your real workout history and ships in the bundle, deploy to a private host only, drop the seed before any public deploy
 import seed from '../config/workoutSeed.json'
 
 export const KEY = 'life-rpg:v1'
@@ -10,14 +11,15 @@ const looksValid = (x: any): x is GameState =>
 
 // Reopening mid-mission counts as leaving the app: break it, then roll the day.
 export function load(store: Pick<Storage, 'getItem' | 'setItem'> = localStorage, now = Date.now()): GameState {
-  const raw = store.getItem(KEY)
+  let raw: string | null = null
+  try { raw = store.getItem(KEY) } catch {} // storage blocked: start fresh, save() will report it
   const today = dayKey(new Date(now))
   if (!raw) return { ...newState(today), workouts: seed }
   try {
     const s = JSON.parse(raw)
     if (looksValid(s)) return rollover(breakActive({ ...s, workouts: Object.keys(s.workouts ?? {}).length ? s.workouts : seed }, now), today)
   } catch {}
-  store.setItem(KEY + ':corrupt', raw) // keep the bad save so it can be recovered by hand
+  try { store.setItem(KEY + ':corrupt', raw) } catch {} // keep the bad save so it can be recovered by hand
   return { ...newState(today), workouts: seed }
 }
 
