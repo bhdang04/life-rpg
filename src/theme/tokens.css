@@ -206,3 +206,5 @@ details.fold[open] summary { color: var(--text); }
 .cal .partial { background: rgba(167, 139, 250, 0.35); }
 .cal .complete { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
 .cal .today { outline: 2px solid var(--accent-2); outline-offset: 1px; }
+
+.warn { color: var(--danger); margin: 8px 0; }
