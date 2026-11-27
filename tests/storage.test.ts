@@ -52,3 +52,10 @@ describe('storage', () => {
     expect(st.m.get(KEY + ':corrupt')).toBe('{nope')
   })
 })
+
+describe('storage errors', () => {
+  it('blocked storage on load gives a fresh state instead of crashing', () => {
+    const blocked = { getItem: () => { throw new Error('blocked') }, setItem: () => { throw new Error('blocked') } }
+    expect(load(blocked, NOW).day).toBe('2026-11-25')
+  })
+})
