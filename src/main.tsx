@@ -10,9 +10,10 @@ import { Mission } from './screens/Mission'
 import { Settings } from './screens/Settings'
 import { Stats } from './screens/Stats'
 import { STATS } from './config/missions'
-import { levelFor, totalXp } from './core/ranks'
+import { levelFor, rankFor, totalXp } from './core/ranks'
 import { useGame } from './store/useGame'
 import { LevelUp, type LevelUpInfo } from './ui/LevelUp'
+import { RankUp, type RankUpInfo } from './ui/RankUp'
 
 const TABS = ['Board', 'Check-in', 'Stats', 'Settings'] as const
 
@@ -42,6 +43,14 @@ function App() {
     })
     if (found.length) setUps((q) => [...q, ...found])
   }, [state.statXp])
+  // Same idea for the overall rank: only a rise queues a card, never a drop.
+  const [rankUps, setRankUps] = useState<RankUpInfo[]>([])
+  const seenXp = useRef(totalXp(state.statXp))
+  useEffect(() => {
+    const [pt, nt] = [seenXp.current, totalXp(state.statXp)]
+    seenXp.current = nt
+    if (nt > pt && rankFor(nt) !== rankFor(pt)) setRankUps((q) => [...q, { from: rankFor(pt), to: rankFor(nt) }])
+  }, [state.statXp])
   // Feedback stays mounted across every screen so it can compare each state change with the last.
   const screen = state.active ? <Mission active={state.active} onChange={setState} /> : gym ? <Gym state={state} onChange={setState} onBack={() => setGym(false)} /> : (
     <>
@@ -52,7 +61,8 @@ function App() {
         {tab === 'Settings' && <Settings state={state} onChange={setState} />}
       </div>
       {ups[0] && !state.active && <LevelUp info={ups[0]} total={totalXp(state.statXp)} onClose={() => setUps((q) => q.slice(1))} />}
-      {dayDone && !ups[0] && <DayComplete state={state} onClose={() => setDayDone(false)} />}
+      {rankUps[0] && !ups[0] && !state.active && <RankUp info={rankUps[0]} total={totalXp(state.statXp)} onClose={() => setRankUps((q) => q.slice(1))} />}
+      {dayDone && !ups[0] && !rankUps[0] && <DayComplete state={state} onClose={() => setDayDone(false)} />}
       <nav>
         {TABS.map((t) => (
           <button key={t} aria-current={t === tab} onClick={() => setTab(t)}>
