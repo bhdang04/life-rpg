@@ -2,6 +2,7 @@ import { STATS } from '../config/missions'
 import type { GameState } from '../core/missions'
 import { logXp, xpByStat } from '../core/summary'
 import { streakMultiplier } from '../core/xp'
+import { Burst } from './Burst'
 import { Ring } from './Ring'
 
 // Full-screen summary once all required quests are done. It ends the day on purpose: nothing here asks you to keep going.
@@ -10,6 +11,7 @@ export function DayComplete({ state, onClose }: { state: GameState; onClose: () 
   const streak = state.streak + 1 // today counts once the day rolls over
   return (
     <div role="dialog" aria-modal="true" aria-label="Day complete" className="levelup">
+      <Burst />
       <small style={{ color: 'var(--accent)', letterSpacing: '0.3em' }}>DAILY QUESTS</small>
       <h1 className="display">DAY COMPLETE</h1>
       <div className="pulse"><Ring level="✓" pct={1} color="#a78bfa" label="All daily quests complete" size={160} /></div>
