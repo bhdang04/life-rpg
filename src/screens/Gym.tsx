@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { finishWorkout, type GameState } from '../core/missions'
-import { plan, rowFor } from '../core/overload'
+import { newBests, plan, rowFor } from '../core/overload'
+import type { Pr } from '../ui/PrCard'
 
 interface Props {
   state: GameState
   onChange: (fn: (s: GameState) => GameState) => void
   onBack: () => void
+  onPr: (prs: Pr[]) => void
 }
 
 const SPLITS = ['Push', 'Pull', 'Legs', 'Upper', 'Custom']
@@ -17,7 +19,7 @@ function nextSplit(workouts: GameState['workouts']) {
   return last && workouts[last].split === 'Push' ? 'Pull' : 'Push'
 }
 
-export function Gym({ state, onChange, onBack }: Props) {
+export function Gym({ state, onChange, onBack, onPr }: Props) {
   const [split, setSplit] = useState(() => nextSplit(state.workouts))
   const [extra, setExtra] = useState<Record<string, string[]>>({}) // exercises added by hand, per split
   const [adding, setAdding] = useState('')
@@ -79,7 +81,7 @@ export function Gym({ state, onChange, onBack }: Props) {
         <datalist id="gym-ex">{known.map((k) => <option key={k} value={k} />)}</datalist>
         <button disabled={!adding.trim()} onClick={add}>Add</button>
       </div>
-      <button className="finish" disabled={entries.length === 0} onClick={() => { onChange((s) => finishWorkout(s, s.day, { split, entries }, Date.now())); onBack() }}>
+      <button className="finish" disabled={entries.length === 0} onClick={() => { onPr(newBests(state.workouts, state.day, { split, entries })); onChange((s) => finishWorkout(s, s.day, { split, entries }, Date.now())); onBack() }}>
         Finish · +50 XP
       </button>
     </main>
