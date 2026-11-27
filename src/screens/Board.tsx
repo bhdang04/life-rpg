@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
 import { MISSIONS, RANK_COLORS, type MissionDef } from '../config/missions'
-import { completeTap, isDone, minutesFor, startMission, type GameState } from '../core/missions'
+import { begin, isDone, minutesFor, type GameState } from '../core/missions'
 import { levelFor, levelProgress, rankFor, totalXp } from '../core/ranks'
 import { streakMultiplier } from '../core/xp'
 import { RankEmblem } from '../ui/RankEmblem'
@@ -56,7 +56,7 @@ function Row({ m, state, act, next }: { m: MissionDef; state: GameState; act: (m
 
 export function Board({ state, onChange, onCheckIn, onGym }: Props) {
   const act = (m: MissionDef) =>
-    m.kind === 'checkin' ? onCheckIn() : m.id === 'gym' ? onGym() : onChange((s) => (m.kind === 'tap' ? completeTap(s, m.id, Date.now()) : startMission(s, m.id, Date.now())))
+    m.kind === 'checkin' ? onCheckIn() : m.id === 'gym' ? onGym() : onChange((s) => begin(s, m.id, Date.now()))
 
   const xp = totalXp(state.statXp)
   const rank = rankFor(xp)
