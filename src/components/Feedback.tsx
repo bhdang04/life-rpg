@@ -50,9 +50,5 @@ export function Feedback({ state, onDayComplete }: { state: GameState; onDayComp
     return () => clearTimeout(t)
   }, [gain])
 
-  return (
-    <>
-      {gain && <Gain key={gain.id} xp={gain.xp} />}
-    </>
-  )
+  return gain ? <Gain key={gain.id} xp={gain.xp} /> : null
 }
