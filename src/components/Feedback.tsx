@@ -3,16 +3,17 @@ import { feedbackFor } from '../core/events'
 import type { GameState } from '../core/missions'
 
 // Floating "+50 XP" and a [System] toast after a change. Each plays once, never loops, never blocks taps.
-export function Feedback({ state }: { state: GameState }) {
+export function Feedback({ state, onDayComplete }: { state: GameState; onDayComplete: () => void }) {
   const prev = useRef(state)
   const [gain, setGain] = useState<{ xp: number; id: number } | null>(null)
   const [toast, setToast] = useState<{ lines: string[]; id: number } | null>(null)
 
   useEffect(() => {
-    const { xp, lines } = feedbackFor(prev.current, state)
+    const { xp, lines, dayComplete } = feedbackFor(prev.current, state)
     prev.current = state
     if (xp) setGain({ xp, id: Date.now() })
     if (lines.length) setToast({ lines, id: Date.now() })
+    if (dayComplete) onDayComplete()
   }, [state])
 
   useEffect(() => {
