@@ -3,6 +3,8 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  // shortcut: lets any *.trycloudflare.com tunnel reach `vite preview` for phone tests, remove once the app is deployed
+  preview: { allowedHosts: ['.trycloudflare.com'] },
   plugins: [
     react(),
     VitePWA({
