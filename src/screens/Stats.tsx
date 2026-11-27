@@ -2,6 +2,7 @@ import { useState, type CSSProperties } from 'react'
 import { RANK_COLORS, STATS, type MissionDef, type Stat } from '../config/missions'
 import { completeTap, startMission, type GameState } from '../core/missions'
 import { levelProgress, rankFor, totalXp } from '../core/ranks'
+import { History } from '../ui/History'
 import { RankEmblem } from '../ui/RankEmblem'
 import { RankPath } from '../ui/RankPath'
 import { Ring } from '../ui/Ring'
@@ -78,6 +79,8 @@ export function Stats({ state, onChange, onCheckIn }: Props) {
       </section>
 
       <RankPath total={total} />
+
+      <History state={state} />
 
       <aside className="sys" style={{ marginTop: 'var(--gap)', padding: '12px 16px', '--bracket': lowest.color } as CSSProperties} aria-label="Focus">
         <small>FOCUS</small>
