@@ -10,6 +10,7 @@ import { Mission } from './screens/Mission'
 import { Settings } from './screens/Settings'
 import { Stats } from './screens/Stats'
 import { STATS } from './config/missions'
+import { crossing } from './core/events'
 import { levelFor, rankFor, totalXp } from './core/ranks'
 import { useGame } from './store/useGame'
 import { LevelUp, type LevelUpInfo } from './ui/LevelUp'
@@ -28,20 +29,19 @@ const ICONS: Record<(typeof TABS)[number], string> = {
 
 // No router: an active mission takes over the screen, everything else switches with a useState tab.
 function App() {
-  const [state, setState] = useGame()
+  const [state, setState, saveFailed] = useGame()
   const [tab, setTab] = useState<(typeof TABS)[number]>('Board')
   const [gym, setGym] = useState(false)
   const [dayDone, setDayDone] = useState(false)
   const [prs, setPrs] = useState<Pr[]>([])
   const [ups, setUps] = useState<LevelUpInfo[]>([])
-  const seen = useRef(Object.fromEntries(STATS.map((st) => [st.id, levelFor(state.statXp[st.id])])))
-  // Compare each stat's level with the last one seen; a jump queues a level-up card (none on first load).
+  const seen = useRef(Object.fromEntries(STATS.map((st) => [st.id, state.statXp[st.id]]))) // best XP per stat this session
+  // A level above the best seen queues a level-up card (none on first load, none for re-earning after a penalty).
   useEffect(() => {
     const found = STATS.flatMap((st) => {
-      const to = levelFor(state.statXp[st.id])
-      const from = seen.current[st.id]
-      seen.current[st.id] = to
-      return to > from ? [{ stat: st.id, from, to }] : []
+      const [best, xp] = [seen.current[st.id], state.statXp[st.id]]
+      seen.current[st.id] = Math.max(best, xp)
+      return crossing(best, xp, levelFor) ? [{ stat: st.id, from: levelFor(best), to: levelFor(xp) }] : []
     })
     if (found.length) setUps((q) => [...q, ...found])
   }, [state.statXp])
@@ -50,8 +50,8 @@ function App() {
   const seenXp = useRef(totalXp(state.statXp))
   useEffect(() => {
     const [pt, nt] = [seenXp.current, totalXp(state.statXp)]
-    seenXp.current = nt
-    if (nt > pt && rankFor(nt) !== rankFor(pt)) setRankUps((q) => [...q, { from: rankFor(pt), to: rankFor(nt) }])
+    seenXp.current = Math.max(pt, nt)
+    if (crossing(pt, nt, rankFor)) setRankUps((q) => [...q, { from: rankFor(pt), to: rankFor(nt) }])
   }, [state.statXp])
   // Feedback stays mounted across every screen so it can compare each state change with the last.
   const screen = state.active ? <Mission active={state.active} onChange={setState} /> : gym ? <Gym state={state} onChange={setState} onBack={() => setGym(false)} onPr={setPrs} /> : (
@@ -76,7 +76,7 @@ function App() {
       </nav>
     </>
   )
-  return <><Feedback state={state} onDayComplete={() => setDayDone(true)} />{screen}</>
+  return <>{saveFailed && <p role="alert" className="warn">Not saving! Settings, then Copy JSON, to keep your progress.</p>}<Feedback state={state} onDayComplete={() => setDayDone(true)} />{screen}</>
 }
 
 createRoot(document.getElementById('root')!).render(
