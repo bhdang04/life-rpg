@@ -61,7 +61,6 @@ export const BREAK_PENALTY = 5
 export const XP_PER_GOLD = 10
 export const DEFAULT_BUDGET = 20
 export const SLEEP_FULL_MIN = 7
-export const SLEEP_FULL_MAX = 9
 
 export const missionById = (id: string): MissionDef => {
   const m = MISSIONS.find((m) => m.id === id)
