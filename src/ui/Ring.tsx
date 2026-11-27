@@ -15,7 +15,7 @@ export function Ring({ level, pct, color, label, size = 96 }: Props) {
       <circle cx="48" cy="48" r="44" fill="none" stroke={color} strokeOpacity="0.45" strokeWidth="2" strokeDasharray="2 5.68" />
       <circle cx="48" cy="48" r="34" fill="rgba(124,58,237,0.12)" stroke={color} strokeOpacity="0.22" strokeWidth="8" />
       {pct > 0 && (
-        <circle cx="48" cy="48" r="34" fill="none" stroke={color} strokeWidth="8" strokeLinecap="round" strokeDasharray={ringDash(pct)} transform="rotate(-90 48 48)" />
+        <circle cx="48" cy="48" r="34" fill="none" stroke={color} strokeWidth="8" className="ring-arc" strokeLinecap="round" strokeDasharray={ringDash(pct)} transform="rotate(-90 48 48)" />
       )}
       {level !== '' && <text x="48" y="58" textAnchor="middle" className="display" fontSize={String(level).length > 2 ? 18 : 28} fontWeight="700" fill="#fff">{level}</text>}
     </svg>
