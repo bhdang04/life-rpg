@@ -15,3 +15,4 @@ One line per decision, and why.
 - Each mission can be completed once per day. Only one timed mission can be active at a time.
 - Core functions are pure (state in, state out) so they can be tested without a DOM.
 - No router: the screen changes with a `useState` tab, so there's one less dependency.
+- Rank-up is a full-screen card (like level-up), not a toast; it queues after level-ups and before Day complete.
