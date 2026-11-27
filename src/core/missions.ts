@@ -24,7 +24,7 @@ export interface GameState {
   day: string // YYYY-MM-DD that `log` belongs to
   log: Record<string, LogEntry> // today's outcome per mission id
   active: ActiveMission | null
-  // shortcut: past day logs kept forever with no UI, add a history screen or pruning in V2
+  // shortcut: past day logs kept forever (shown in Stats > History), add pruning if the save grows large
   history: Record<string, Record<string, LogEntry>>
   workouts: Record<string, Workout> // gym sessions by date
 }
