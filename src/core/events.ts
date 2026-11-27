@@ -9,3 +9,6 @@ export function feedbackFor(prev: GameState, next: GameState): { xp: number; day
   const [pt, nt] = [totalXp(prev.statXp), totalXp(next.statXp)]
   return { xp: nt - pt, dayComplete: !isDayComplete(prev.log) && isDayComplete(next.log) }
 }
+
+// A level or rank crossing, measured from the best XP seen so far: a penalty then a re-earn is not a new crossing.
+export const crossing = (best: number, now: number, key: (xp: number) => unknown) => now > best && key(now) !== key(best)
