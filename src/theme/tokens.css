@@ -13,6 +13,8 @@
   --radius: 16px;
   --gap: 12px;
   --tap: 44px; /* minimum touch target */
+  --dur-fast: 200ms; /* screen and row fades */
+  --dur-med: 400ms; /* bar fills */
   color-scheme: dark;
 }
 
@@ -108,8 +110,8 @@ nav button[aria-current='true'] { color: var(--text); background: var(--glass-st
 .sys::before { top: -2px; left: -2px; border-right: 0; border-bottom: 0; }
 .sys::after { bottom: -2px; right: -2px; border-left: 0; border-top: 0; }
 
-/* Slow glow on the Next Up card. */
-.hero { animation: glow 3.2s ease-in-out infinite; }
+/* Slow glow on the Next Up card (3 pulses, then still). */
+.hero { animation: glow 3.2s ease-in-out 3; }
 @keyframes glow {
   0%, 100% { box-shadow: 0 0 14px rgba(167, 139, 250, 0.3); }
   50% { box-shadow: 0 0 30px rgba(167, 139, 250, 0.65); }
@@ -119,7 +121,7 @@ nav button[aria-current='true'] { color: var(--text); background: var(--glass-st
 .hdr { display: flex; align-items: center; gap: 12px; }
 .hdr .grow { flex: 1; min-width: 0; }
 .xpbar { height: 6px; margin-top: 6px; border-radius: 3px; overflow: hidden; background: rgba(167, 139, 250, 0.2); }
-.xpbar > i { display: block; height: 100%; background: linear-gradient(90deg, #7c3aed, #ddd0ff); box-shadow: 0 0 10px var(--accent); }
+.xpbar > i { transition: width var(--dur-med) ease-out; display: block; height: 100%; background: linear-gradient(90deg, #7c3aed, #ddd0ff); box-shadow: 0 0 10px var(--accent); }
 .pills { display: flex; flex-direction: column; gap: 4px; }
 .pill { padding: 2px 8px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
 .daily-head { display: flex; align-items: center; gap: 14px; padding-top: 12px; }
@@ -146,7 +148,7 @@ details.fold[open] summary { color: var(--text); }
 .levelup { position: fixed; inset: 0; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; padding: 0 24px 40px; text-align: center; background: radial-gradient(90% 50% at 50% 38%, #3b1b78 0%, #0a0614 75%); }
 .levelup h1 { margin: 0; font-size: 2.5rem; letter-spacing: 0.08em; text-shadow: 0 0 24px var(--accent); }
 .levelup .go { width: 100%; max-width: 420px; min-height: 56px; background: var(--accent); color: #1b0b3f; font-weight: 600; border: 0; }
-.pulse { animation: pulse 2.4s ease-in-out infinite; }
+.pulse { animation: pulse 2.4s ease-in-out 3; }
 @keyframes pulse { 50% { transform: scale(1.05); } }
 
 .lock { min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; text-align: center; background: radial-gradient(90% 50% at 50% 35%, #3b1b78 0%, #0a0614 75%); }
@@ -158,7 +160,22 @@ details.fold[open] summary { color: var(--text); }
 .lock .hint { font-size: 0.8rem; color: var(--text-dim); max-width: 320px; margin: 0; }
 .lock .quiet { background: transparent; border-color: transparent; color: var(--text-dim); }
 
-@media (prefers-reduced-motion: reduce) { button, .tile svg { transition: none; } .hero, .pulse { animation: none; } }
+/* Motion rules: short, played once or a fixed count, never blocks input, off under reduce-motion. */
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes float-up { from { opacity: 1; transform: translate(-50%, 0); } to { opacity: 0; transform: translate(-50%, -48px); } }
+@keyframes pop { 0% { opacity: 0; transform: translate(-50%, 8px); } 8%, 88% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; } }
+.screen { animation: fade-in var(--dur-fast) ease-out; }
+.lock-ring .clock.urgent { color: var(--danger); animation: pulse 1s ease-in-out 10; }
+.gain, .toast { position: fixed; left: 50%; pointer-events: none; z-index: 11; }
+.gain { top: 38dvh; font-size: 1.6rem; font-weight: 700; color: var(--accent-2); text-shadow: 0 0 16px var(--accent); animation: float-up 600ms ease-out both; }
+.gain.loss { color: var(--danger); text-shadow: none; }
+.toast { top: calc(12px + env(safe-area-inset-top)); width: min(92vw, 520px); padding: 10px 16px; border-radius: var(--radius); border: 1px solid var(--border); background: rgba(26, 15, 51, 0.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); animation: pop 2.8s ease-out both; }
+.toast p { margin: 2px 0; color: var(--text); }
+
+@media (prefers-reduced-motion: reduce) {
+  button, .tile svg, .xpbar > i { transition: none; }
+  .hero, .pulse, .screen, .gain, .toast, .lock-ring .clock.urgent { animation: none; }
+}
 
 /* Gym workout screen */
 .splits { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: var(--gap); }
