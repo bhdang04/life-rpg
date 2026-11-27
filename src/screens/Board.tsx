@@ -21,7 +21,7 @@ function Icon({ kind }: { kind: 'done' | 'next' | 'bad' | 'open' }) {
   const p = { width: 22, height: 22, viewBox: '0 0 24 24', fill: 'none', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', className: 'row-icon', role: 'img' } as const
   if (kind === 'done')
     return (
-      <svg {...p} stroke="#c4b5fd" aria-label="Done"><circle cx="12" cy="12" r="9" fill="rgba(167,139,250,0.25)" /><path d="M8 12.5l3 3 5-6" /></svg>
+      <svg {...p} stroke="#c4b5fd" aria-label="Done"><circle cx="12" cy="12" r="9" fill="rgba(167,139,250,0.25)" /><path d="M8 12.5l3 3 5-6" pathLength={1} className="tick" /></svg>
     )
   if (kind === 'next')
     return (
