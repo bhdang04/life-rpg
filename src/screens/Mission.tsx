@@ -36,8 +36,9 @@ export function Mission({ active, onChange }: Props) {
   // Keep the screen awake. shortcut: no re-request after the OS drops the lock, a dropped lock only lets the screen dim
   useEffect(() => {
     let lock: WakeLockSentinel | undefined
-    navigator.wakeLock?.request('screen').then((l) => (lock = l)).catch(() => {})
-    return () => void lock?.release().catch(() => {})
+    let gone = false // left the screen before the request resolved: release the late lock
+    navigator.wakeLock?.request('screen').then((l) => { if (gone) void l.release(); else lock = l }).catch(() => {})
+    return () => { gone = true; void lock?.release().catch(() => {}) }
   }, [])
 
   const left = active.endsAt - now
