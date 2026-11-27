@@ -2,6 +2,7 @@ import { StrictMode, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import './theme/tokens.css'
 import { Feedback } from './components/Feedback'
+import { DayComplete } from './ui/DayComplete'
 import { Board } from './screens/Board'
 import { CheckIn } from './screens/CheckIn'
 import { Gym } from './screens/Gym'
@@ -28,6 +29,7 @@ function App() {
   const [state, setState] = useGame()
   const [tab, setTab] = useState<(typeof TABS)[number]>('Board')
   const [gym, setGym] = useState(false)
+  const [dayDone, setDayDone] = useState(false)
   const [ups, setUps] = useState<LevelUpInfo[]>([])
   const seen = useRef(Object.fromEntries(STATS.map((st) => [st.id, levelFor(state.statXp[st.id])])))
   // Compare each stat's level with the last one seen; a jump queues a level-up card (none on first load).
@@ -50,6 +52,7 @@ function App() {
         {tab === 'Settings' && <Settings state={state} onChange={setState} />}
       </div>
       {ups[0] && !state.active && <LevelUp info={ups[0]} total={totalXp(state.statXp)} onClose={() => setUps((q) => q.slice(1))} />}
+      {dayDone && !ups[0] && <DayComplete state={state} onClose={() => setDayDone(false)} />}
       <nav>
         {TABS.map((t) => (
           <button key={t} aria-current={t === tab} onClick={() => setTab(t)}>
@@ -60,7 +63,7 @@ function App() {
       </nav>
     </>
   )
-  return <><Feedback state={state} />{screen}</>
+  return <><Feedback state={state} onDayComplete={() => setDayDone(true)} />{screen}</>
 }
 
 createRoot(document.getElementById('root')!).render(
