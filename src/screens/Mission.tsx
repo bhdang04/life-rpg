@@ -47,7 +47,7 @@ export function Mission({ active, onChange }: Props) {
       <h1 className="display">{m.name}</h1>
       <div className="lock-ring">
         <Ring level="" pct={Math.min(1, Math.max(0, left / (active.endsAt - active.startedAt)))} color="#c4b5fd" label={`${clock(left)} left`} size={300} />
-        <p className="clock display" aria-live="off">{clock(left)}</p>
+        <p className={left <= 10_000 ? 'clock display urgent' : 'clock display'} aria-live="off">{clock(left)}</p>
       </div>
       <p>{active.count} / {m.tracker!.target} {m.tracker!.label} · +{m.xp} XP at stake</p>
       <button className="go" onClick={() => onChange((s) => track(s, Date.now()))}>+1 {m.tracker!.label}</button>
