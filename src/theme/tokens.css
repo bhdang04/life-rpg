@@ -167,10 +167,9 @@ details.fold[open] summary { color: var(--text); }
 @keyframes draw { from { stroke-dashoffset: 1; } }
 @keyframes ring-in { from { stroke-dasharray: 0 999; } }
 @keyframes burst { from { transform: rotate(var(--a)) translateY(0); opacity: 1; } to { transform: rotate(var(--a)) translateY(-130px) scale(0.3); opacity: 0; } }
-@keyframes pop { 0% { opacity: 0; transform: translate(-50%, 8px); } 8%, 88% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; } }
 .screen { animation: fade-in var(--dur-fast) ease-out; }
 .lock-ring .clock.urgent { color: var(--danger); animation: pulse 1s ease-in-out 10; }
-.gain, .toast { position: fixed; left: 50%; pointer-events: none; z-index: 11; }
+.gain { position: fixed; left: 50%; pointer-events: none; z-index: 11; }
 .gain { top: 38dvh; padding: 4px 20px; border-radius: 999px; border: 1px solid var(--border); background: rgba(26, 15, 51, 0.9); font-size: 2rem; font-weight: 700; color: var(--accent-2); text-shadow: 0 0 16px var(--accent); animation: gain-pop 800ms ease-out both; }
 .gain.loss { color: var(--danger); text-shadow: none; }
 .tick { stroke-dasharray: 1; animation: draw 300ms ease-out 80ms both; }
@@ -178,12 +177,10 @@ details.fold[open] summary { color: var(--text); }
 .burst { position: absolute; left: 50%; top: 40%; width: 0; height: 0; pointer-events: none; }
 .burst i { position: absolute; left: -3px; top: -3px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 8px var(--accent-2); animation: burst 700ms ease-out 150ms both; }
 .burst i:nth-child(even) { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
-.toast { top: calc(12px + env(safe-area-inset-top)); width: min(92vw, 520px); padding: 10px 16px; border-radius: var(--radius); border: 1px solid var(--border); background: rgba(26, 15, 51, 0.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); animation: pop 2.8s ease-out both; }
-.toast p { margin: 2px 0; color: var(--text); }
 
 @media (prefers-reduced-motion: reduce) {
   button, .tile svg, .xpbar > i { transition: none; }
-  .hero, .pulse, .screen, .gain, .toast, .lock-ring .clock.urgent, .tick, .ring-arc { animation: none; }
+  .hero, .pulse, .screen, .gain, .lock-ring .clock.urgent, .tick, .ring-arc { animation: none; }
   .burst { display: none; }
 }
 
